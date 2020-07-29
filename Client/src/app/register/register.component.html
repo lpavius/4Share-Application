@@ -1,0 +1,50 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">Inscrivez-vous</h4>
+  <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="registerForm" (ngSubmit)="register()">
+    <div class="form-group">
+      <label for="firstname">Prénom</label>
+      <input formControlName="firstname" type="text" class="form-control" id="firstname" [ngClass]="{ 'is-invalid': submitted && myForm.firstname.errors}">
+      <div *ngIf="submitted && myForm.firstname.errors" class="invalid-feedback">
+        <!-- <div *ngIf="myForm.firstname.errors.required">Prénom obligatoire</div> -->
+        Prénom obligatoire
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="lastname">Nom</label>
+      <input type="text" class="form-control" id="lastname" formControlName="lastname" [ngClass]="{ 'is-invalid': submitted && myForm.lastname.errors}">
+      <div *ngIf="submitted && myForm.lastname.errors" class="invalid-feedback">
+        <div *ngIf="myForm.lastname.errors.required">Nom obligatoire</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="exampleInputEmail1">Email</label>
+      <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" formControlName="email" [ngClass]="{ 'is-invalid': submitted && myForm.email.errors}">
+      <div *ngIf="submitted && myForm.email.errors" class="invalid-feedback">
+        <div *ngIf="myForm.email.errors.required">Adresse Email obligatoire</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="exampleInputPassword1">Mot de Passe</label>
+      <input type="password" class="form-control" id="exampleInputPassword1" formControlName="password" [ngClass]="{ 'is-invalid': submitted && myForm.password.errors}">
+      <div *ngIf="submitted && myForm.password.errors" class="invalid-feedback">
+        <div *ngIf="myForm.password.errors.required">Mot de passe obligatoire</div>
+      </div>
+    </div>
+    <!-- <div class="form-group form-check">
+      <input type="checkbox" class="form-check-input" id="exampleCheck1">
+      <label class="form-check-label" for="exampleCheck1">Check me out</label>
+    </div> -->
+    <div>
+      ou <a routerLink="" (click)="modalLogin()">Connectez-vous</a>
+    </div>
+    <div class="modal-footer">
+      <input type="submit" class="btn btn-primary" value="S'inscrire">
+      <button type="button" class="btn btn-secondary" (click)="modal.close('Cancel')">fermer</button>
+    </div>
+  </form>
+</div>

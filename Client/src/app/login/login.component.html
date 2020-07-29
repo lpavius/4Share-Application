@@ -1,0 +1,36 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">Connectez-vous</h4>
+  <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="loginForm" (ngSubmit)="login()">
+    <div class="form-group">
+      <label for="exampleInputEmail1">Email</label>
+      <input type="email" class="form-control" id="exampleInputEmail1" formControlName="email" [ngClass]="{ 'is-invalid': submitted && myForm.email.errors}">
+      <div *ngIf="submitted && myForm.email.errors" class="invalid-feedback">
+        <!-- <div *ngIf="submitted && myForm.email.errors.required">Email obligatoire</div> -->
+        Email obligatoire
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="exampleInputPassword1">Mot de Passe</label>
+      <input type="password" class="form-control" id="exampleInputPassword1" formControlName="password" [ngClass]="{'is-invalid': submitted && myForm.password.errors}">
+      <div *ngIf="submitted && myForm.email.errors" class="invalid-feedback">
+        <div *ngIf="submitted && myForm.email.errors.required">Mot de passe obligatoire</div>
+      </div>
+    </div>
+    <!-- <div class="form-group form-check">
+      <input type="checkbox" class="form-check-input" id="exampleCheck1">
+      <label class="form-check-label" for="exampleCheck1">Check me out</label>
+    </div> -->
+    <div>
+      ou <a routerLink="" (click)="modalRegister()">Créez un compte</a>
+    </div>
+    <div class="modal-footer">
+      <input type="submit" class="btn btn-primary" value="Se connecter">
+      <button type="button" class="btn btn-secondary" (click)="modal.close('Cancel')">fermer</button>
+    </div>
+  </form>
+</div>
