@@ -1,4 +1,4 @@
-package com.PaviusLucy.Server;
+package com.paviuslucy.ForShare;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
