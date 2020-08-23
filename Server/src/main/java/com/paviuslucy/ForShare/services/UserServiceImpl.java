@@ -1,6 +1,7 @@
 package com.paviuslucy.ForShare.services;
 
 import com.paviuslucy.ForShare.dtos.UserCreateDto;
+import com.paviuslucy.ForShare.dtos.UserDto;
 import com.paviuslucy.ForShare.entities.User;
 import com.paviuslucy.ForShare.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,5 +26,17 @@ public class UserServiceImpl implements UserService{
         user.setPassword(passwordEncoder.encode(createDto.getPassword()));
         user.setEnabled(true);
         userRepository.save(user);
+    }
+
+    @Override
+    public UserDto get(Long id) {
+        User user = userRepository.findById(id).get();
+        UserDto dto = new UserDto();
+        dto.setId(user.getId());
+        dto.setFirstName(user.getFirstName());
+        dto.setLastName(user.getLastName());
+        dto.setUserName(user.getUserName());
+        dto.setPassword(user.getPassword());
+        return dto;
     }
 }
