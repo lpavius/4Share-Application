@@ -1,21 +1,18 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { User } from './models/user';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiUsersService {
 
-  model: any;
+  private baseUrl = 'http://localhost:8083';
 
   constructor(private http: HttpClient) { }
 
-  login(): void {
+  public register(user: User) {
     // send POST sur le serveur
-    // return
-    // this.http.post(`http://localhost:PORT_DU_SERVEUR_DEMARRE/login`, {
-    //   username: this.model.username,
-    //   password: this.model.password
-    // });
+    return this.http.post<any>(`${this.baseUrl}/users/register`, user);
   }
 }

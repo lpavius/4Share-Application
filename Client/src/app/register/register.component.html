@@ -7,29 +7,29 @@
 <div class="modal-body">
   <form [formGroup]="registerForm" (ngSubmit)="register()">
     <div class="form-group">
-      <label for="firstname">Prénom</label>
-      <input formControlName="firstname" type="text" class="form-control" id="firstname" [ngClass]="{ 'is-invalid': submitted && myForm.firstname.errors}">
-      <div *ngIf="submitted && myForm.firstname.errors" class="invalid-feedback">
-        <!-- <div *ngIf="myForm.firstname.errors.required">Prénom obligatoire</div> -->
+      <label for="firstname">Prénom:</label>
+      <input formControlName="firstName" type="text" class="form-control" id="firstname" [ngClass]="{ 'is-invalid': submitted && myForm.firstName.errors}">
+      <div *ngIf="submitted && myForm.firstName.errors" class="invalid-feedback">
+        <!-- <div *ngIf="myForm.firstName.errors.required">Prénom obligatoire</div> -->
         Prénom obligatoire
       </div>
     </div>
     <div class="form-group">
-      <label for="lastname">Nom</label>
-      <input type="text" class="form-control" id="lastname" formControlName="lastname" [ngClass]="{ 'is-invalid': submitted && myForm.lastname.errors}">
-      <div *ngIf="submitted && myForm.lastname.errors" class="invalid-feedback">
-        <div *ngIf="myForm.lastname.errors.required">Nom obligatoire</div>
+      <label for="lastname">Nom:</label>
+      <input type="text" class="form-control" id="lastname" formControlName="lastName" [ngClass]="{ 'is-invalid': submitted && myForm.lastName.errors}">
+      <div *ngIf="submitted && myForm.lastName.errors" class="invalid-feedback">
+        <div *ngIf="myForm.lastName.errors.required">Nom obligatoire</div>
       </div>
     </div>
     <div class="form-group">
-      <label for="exampleInputEmail1">Email</label>
-      <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" formControlName="email" [ngClass]="{ 'is-invalid': submitted && myForm.email.errors}">
-      <div *ngIf="submitted && myForm.email.errors" class="invalid-feedback">
-        <div *ngIf="myForm.email.errors.required">Adresse Email obligatoire</div>
+      <label for="exampleInputEmail1">Email:</label>
+      <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" formControlName="userName" [ngClass]="{ 'is-invalid': submitted && myForm.userName.errors}">
+      <div *ngIf="submitted && myForm.userName.errors" class="invalid-feedback">
+        <div *ngIf="myForm.userName.errors.required">Adresse Email obligatoire</div>
       </div>
     </div>
     <div class="form-group">
-      <label for="exampleInputPassword1">Mot de Passe</label>
+      <label for="exampleInputPassword1">Mot de Passe:</label>
       <input type="password" class="form-control" id="exampleInputPassword1" formControlName="password" [ngClass]="{ 'is-invalid': submitted && myForm.password.errors}">
       <div *ngIf="submitted && myForm.password.errors" class="invalid-feedback">
         <div *ngIf="myForm.password.errors.required">Mot de passe obligatoire</div>
