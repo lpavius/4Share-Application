@@ -115,6 +115,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "Share"
+    }
+  },
+  "defaultProject": "Share",
+  "cli": {
+    "analytics": "f55a7d47-060d-4075-a409-7da65c2e3f06"
+  }
 }
