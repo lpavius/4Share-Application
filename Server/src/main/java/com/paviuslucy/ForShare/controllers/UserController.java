@@ -23,8 +23,8 @@ public class UserController {
         userService.create(createDto);
     }
 
-    @GetMapping("/{id}")
-    public UserDto getUser(@PathVariable("id") Long id) {
-        return userService.get(id);
+    @GetMapping("/{username}")
+    public UserDto getUser(@PathVariable("username") String username) {
+        return userService.get(username);
     }
 }

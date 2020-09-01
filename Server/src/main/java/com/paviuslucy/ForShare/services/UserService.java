@@ -6,5 +6,5 @@ import com.paviuslucy.ForShare.dtos.UserDto;
 public interface UserService {
 
     void create(UserCreateDto createDto);
-    UserDto get(Long id);
+    UserDto get(String username);
 }

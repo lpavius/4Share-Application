@@ -29,8 +29,8 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public UserDto get(Long id) {
-        User user = userRepository.findById(id).get();
+    public UserDto get(String username) {
+        User user = userRepository.findByUserName(username);
         UserDto dto = new UserDto();
         dto.setId(user.getId());
         dto.setFirstName(user.getFirstName());
