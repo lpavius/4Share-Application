@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import { RegisterComponent } from '../register/register.component';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { ApiUsersService } from '../api-users.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -11,15 +13,21 @@ import { FormBuilder, Validators } from '@angular/forms';
 })
 export class LoginComponent implements OnInit {
 
-  loginForm = this.form.group({
-    email: ['', Validators.required],
-    password: ['', Validators.required]
-  });
+  loginForm: FormGroup;
   submitted = false;
+  loginFailed = false;
+  public message: string;
 
-  constructor(public modal: NgbActiveModal, private modalService: NgbModal, private form: FormBuilder) { }
+  constructor(public modal: NgbActiveModal, private modalService: NgbModal, 
+              private form: FormBuilder, private apiUser: ApiUsersService, private router: Router) { }
 
   ngOnInit() {
+    this.loginForm = this.form.group({
+      username: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required],
+      grant_type: 'password',
+      client_id: 'forshare-app'
+    });
   }
 
   modalRegister() {
@@ -27,12 +35,24 @@ export class LoginComponent implements OnInit {
     this.modalService.open(RegisterComponent);
   }
 
-  login() {
+  onSubmit() {
     this.submitted = true;
     console.log(this.loginForm);
-    if (this.loginForm.valid) {
-      this.modalService.dismissAll(LoginComponent);
+    if (this.loginForm.invalid) {
+      return;
     }
+    return this.apiUser.login(this.myForm.username.value, this.myForm.password.value, 
+                              this.myForm.grant_type.value, this.myForm.client_id.value)
+      .subscribe(isLoggedIn => {
+        if (isLoggedIn) {
+          this.modalService.dismissAll(LoginComponent);
+          return this.router.navigate(['/profil']);
+        } else {
+          this.loginFailed = true;
+          this.message = 'E-mail ou mot de passe invalide';
+        }
+      })
+
   }
 
   get myForm() {
