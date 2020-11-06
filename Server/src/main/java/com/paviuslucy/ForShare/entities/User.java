@@ -29,6 +29,15 @@ public class User {
         //
     }
 
+    public User(String firstName, String lastName, String userName, String password, boolean enabled) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.userName = userName;
+        this.password = password;
+        this.enabled = enabled;
+    }
+
     public Long getId() {
         return id;
     }

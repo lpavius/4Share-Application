@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-@CrossOrigin
+//@CrossOrigin
 @RestController
 @RequestMapping("/users") // "/api/users"
 public class UserController {
@@ -18,11 +18,13 @@ public class UserController {
         this.userService = userService;
     }
 
+    // Create a new User
     @PostMapping("/register") // "/api/users/register"
     public void createUser(@RequestBody @Valid UserCreateDto createDto) {
         userService.create(createDto);
     }
 
+    // Get a User
     @GetMapping("/{username}")
     public UserDto getUser(@PathVariable("username") String username) {
         return userService.get(username);
