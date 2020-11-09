@@ -20,10 +20,8 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Override
     @Transactional
     public void insertData() {
-        //mdp = "motdepasse"
         User first =  new User("1er", "Utilisateur", "utilisateur@test.com", passwordEncoder.encode("motdepasse"), true);
         userRepository.save(first);
-        //mdp = "password"
         userRepository.save(new User("Jenny", "Valdez", "jenny@test.com", passwordEncoder.encode("password"), true));
     }
 }

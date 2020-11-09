@@ -10,6 +10,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserServiceImpl implements UserService{
 
@@ -31,8 +33,25 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public UserDto get(String username) {
+    public List<User> getAll() {
+        return userRepository.findAll();
+    }
+
+    /*@Override
+    public UserDto getByUsername(String username) {
         User user = userRepository.findByUserName(username);
+        UserDto dto = new UserDto();
+        dto.setId(user.getId());
+        dto.setFirstName(user.getFirstName());
+        dto.setLastName(user.getLastName());
+        dto.setUserName(user.getUserName());
+        dto.setPassword(user.getPassword());
+        return dto;
+    }*/
+
+    @Override
+    public UserDto getById(Long id) {
+        User user = userRepository.findById(id).orElseThrow();
         UserDto dto = new UserDto();
         dto.setId(user.getId());
         dto.setFirstName(user.getFirstName());
@@ -43,24 +62,10 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public UserDto getUserAuth() {
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userRepository.findByUserName(username);
-        UserDto userDto = new UserDto();
-        userDto.setId(user.getId());
-        userDto.setFirstName(user.getFirstName());
-        userDto.setLastName(user.getLastName());
-        userDto.setUserName(user.getUserName());
-        userDto.setPassword(user.getPassword());
-        return  userDto;
-    }
-
-    @Override
-    public UserDto update(UserDto userDto) {
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userRepository.findByUserName(username);
-        if(username == null) {
-            throw new UsernameNotFoundException("no user found with username: " + username);
+    public UserDto update(Long id, UserDto userDto) {
+        User user = userRepository.findById(id).orElseThrow();
+        if(id == null) {
+            throw new UsernameNotFoundException("no user found with id: " + id);
         }
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
@@ -68,4 +73,11 @@ public class UserServiceImpl implements UserService{
         userRepository.save(user);
         return userDto;
     }
+
+    @Override
+    public void delete(Long id) {
+        userRepository.deleteById(id);
+    }
+
+
 }

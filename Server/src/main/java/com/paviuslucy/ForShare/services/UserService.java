@@ -2,14 +2,21 @@ package com.paviuslucy.ForShare.services;
 
 import com.paviuslucy.ForShare.dtos.UserCreateDto;
 import com.paviuslucy.ForShare.dtos.UserDto;
+import com.paviuslucy.ForShare.entities.User;
+
+import java.util.List;
 
 public interface UserService {
 
     void create(UserCreateDto createDto);
 
-    UserDto get(String username);
+    List<User> getAll();
 
-    public UserDto getUserAuth();
+    //UserDto getByUsername(String username);
 
-    public UserDto update(UserDto userDto);
+    UserDto getById(Long id);
+
+    public UserDto update(Long id, UserDto userDto);
+
+    void delete(Long id);
 }
