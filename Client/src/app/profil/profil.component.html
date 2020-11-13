@@ -1,10 +1,7 @@
-<p>profil works!</p>
-
-<div *ngIf="users">
-    <p> {{ users.firstName }} </p>
-    <p> {{ users.lastName }} </p>
-    <p> {{ users.userName }} </p>
-</div>
+<!-- <p>profil works!</p> -->
+<!-- <div>
+    {{user.firstName}} {{user.lastName}} {{user.userName}}
+</div> -->
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="card col-6">
@@ -13,35 +10,44 @@
                 <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" class="avatar rounded-circle img-thumbnail" alt="avatar">
             </div>
             <div class="card-body">
-                <form action="">
+                <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
                     <!-- <div class="form-group"> -->
                         <div class="form-group input-group mb-3">
                             <div class="input-group-prepend">
                               <span class="input-group-text" id="basic-addon1">Prénom*</span>
                             </div>
-                            <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+                            <input formControlName="firstName" type="text" class="form-control" id="firstname" [readonly]="isDisabled">
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                               <span class="input-group-text" id="basic-addon1">Nom*</span>
                             </div>
-                            <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+                            <input formControlName="lastName" type="text" class="form-control" id="lastname" [readonly]="isDisabled">
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                               <span class="input-group-text" id="basic-addon1">E-mail*</span>
                             </div>
-                            <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+                            <input type="email" formControlName="userName" class="form-control" id="userName" [readonly]="isDisabled">
+                            <div *ngIf="myForm.userName.errors" class="invalid-feedback">
+                                <!-- <div *ngIf="myForm.userName.errors.required">Adresse Email obligatoire</div> -->
+                                <div *ngIf="myForm.userName.errors.email">Ce doit être une adresse email valide</div>
+                            </div>
                         </div>
-                        <div class="input-group mb-3">
+                        <!-- <div class="input-group mb-3">
                             <div class="input-group-prepend">
                               <span class="input-group-text" id="basic-addon1">Mot de passe*</span>
                             </div>
-                            <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
-                        </div>
+                            <input type="password" class="form-control" formControlName="password" id="password">
+                        </div> -->
                         <div class="text-center">
-                            <input type="submit" class="btn btn-primary" value="Modifier">
-                            <button type="button" class="btn btn-secondary" (click)="modal.close('Cancel')">fermer</button>
+                            <div *ngIf="modified; else elseBlock">
+                                <input type="submit" class="btn btn-primary" value="Valider">
+                                <button type="button" class="btn btn-secondary" (click)="updateForm()">fermer</button>
+                            </div>
+                            <ng-template #elseBlock>
+                                <button type="button" class="btn btn-primary" (click)="updateForm()">Modifier</button>
+                            </ng-template>
                         </div>
                     <!-- </div> -->
                 </form>

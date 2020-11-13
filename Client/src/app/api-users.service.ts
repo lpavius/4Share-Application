@@ -48,6 +48,14 @@ export class ApiUsersService {
     )
   }
 
+  public update(user: any) {
+    return this.http.put(`${this.baseUrl}/profil`, user, {
+      headers: {
+        Authorization: `Bearer ${this.getToken()}`
+      }
+    });
+  }
+
   public getProfil() {
     return this.http.get(`${this.baseUrl}/profil`, {
       headers: {
