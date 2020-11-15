@@ -16,19 +16,19 @@
                             <div class="input-group-prepend">
                               <span class="input-group-text" id="basic-addon1">Prénom*</span>
                             </div>
-                            <input formControlName="firstName" type="text" class="form-control" id="firstname" [readonly]="isDisabled">
+                            <input formControlName="firstName" type="text" class="form-control" [readonly]="isDisabled">
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                               <span class="input-group-text" id="basic-addon1">Nom*</span>
                             </div>
-                            <input formControlName="lastName" type="text" class="form-control" id="lastname" [readonly]="isDisabled">
+                            <input formControlName="lastName" type="text" class="form-control" [readonly]="isDisabled">
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                               <span class="input-group-text" id="basic-addon1">E-mail*</span>
                             </div>
-                            <input type="email" formControlName="userName" class="form-control" id="userName" [readonly]="isDisabled">
+                            <input type="email" formControlName="userName" class="form-control" [readonly]="isDisabled">
                             <div *ngIf="myForm.userName.errors" class="invalid-feedback">
                                 <!-- <div *ngIf="myForm.userName.errors.required">Adresse Email obligatoire</div> -->
                                 <div *ngIf="myForm.userName.errors.email">Ce doit être une adresse email valide</div>

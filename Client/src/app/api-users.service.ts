@@ -5,6 +5,8 @@ import { Observable, of } from 'rxjs';
 import { Token } from './models/token';
 import { map, catchError } from 'rxjs/operators';
 import { Profil } from './models/profil';
+import {JwtHelperService} from '@auth0/angular-jwt';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -14,15 +16,17 @@ export class ApiUsersService {
   private baseUrl = 'http://localhost:8083/api';
   private authUrl = 'http://localhost:8083/oauth/token'
   private token: string;
+  private helper = new JwtHelperService();
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
-  public register(user: User) {
-    // send POST sur le serveur
+  /** REGISTER **/
+  register(user: User) {
     return this.http.post<Token>(`${this.baseUrl}/users/register`, user);
   }
 
-  public login(username: string, password: string, grantType: string, clientId: string) {
+  /** LOGIN **/
+  login(username: string, password: string, grantType: string, clientId: string) {
     const body = new HttpParams()
       .set('username', username)
       .set('password', password)
@@ -48,7 +52,8 @@ export class ApiUsersService {
     )
   }
 
-  public update(user: any) {
+  /** UPDATE **/
+  update(user: any) {
     return this.http.put(`${this.baseUrl}/profil`, user, {
       headers: {
         Authorization: `Bearer ${this.getToken()}`
@@ -56,26 +61,29 @@ export class ApiUsersService {
     });
   }
 
-  public getProfil() {
+  /**  GET **/
+  getProfil() {
     return this.http.get(`${this.baseUrl}/profil`, {
       headers: {
         Authorization: `Bearer ${this.getToken()}`
       }
-    });
-    /*.pipe(
-      map((reponse) => {
-        if (reponse.data) {
-          return reponse.data;
-        }else {
-          return false;
-        }
-      }),
-      catchError( (error: any) => {
-        return of(false);
-      })
-    )*/
+    })
+    // .pipe(
+    //   map((reponse) => {
+    //     if (reponse) {
+    //       console.log(reponse);
+    //       // return reponse;
+    //     // }else {
+    //     //   return false;
+    //     }
+    //   }),
+    //   catchError( (error: any) => {
+    //     console.log(error);
+    //   })
+    // )
   }
 
+  /** --- TOKEN --- **/
   getToken() {
     this.token = localStorage.getItem('access_token');
     return this.token;
@@ -89,4 +97,13 @@ export class ApiUsersService {
     localStorage.setItem('access_token', '');
     this.token = '';
   }
+
+  tokenExpired(): boolean {
+    // const jwtToken = JSON.parse(atob(token.split('.')[1]));
+    // const expired = Date.now() 
+    // return (Math.floor((new Date).getTime() / 1000));
+    return this.helper.isTokenExpired(this.getToken())
+    
+  }
+  /** ------ **/
 }
