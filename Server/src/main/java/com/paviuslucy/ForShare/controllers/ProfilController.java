@@ -21,7 +21,7 @@ public class ProfilController {
         return profilService.getUserAuth();
     }
 
-    @PutMapping
+    @PutMapping // "api/profil/
     public UserDto UpdateProfil(@Valid @RequestBody UserDto userDto) {
         return profilService.update(userDto);
     }

@@ -23,6 +23,8 @@ public class ServerApplication {
 	@Bean
 	public CommandLineRunner  commandLineRunner() {
 		return args -> {
+			applicationService.deleteRepository();
+			applicationService.initRepository();
 			applicationService.insertData();
 		};
 	}

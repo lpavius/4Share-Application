@@ -10,6 +10,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 @Service
@@ -21,6 +25,9 @@ public class UserServiceImpl implements UserService{
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    private final Path root = Paths.get("uploads");
+
+
     @Override
     public void create(UserCreateDto createDto) {
         User user = new User();
@@ -30,6 +37,11 @@ public class UserServiceImpl implements UserService{
         user.setPassword(passwordEncoder.encode(createDto.getPassword()));
         user.setEnabled(true);
         userRepository.save(user);
+        try {
+            Files.createDirectories(Path.of(root + "\\" + Long.toString(user.getId())));
+        } catch (IOException e) {
+            throw new RuntimeException("Could not initialize folder for upload!");
+        }
     }
 
     @Override
