@@ -19,9 +19,9 @@ export class ProfilComponent implements OnInit {
   constructor(private userApi: ApiUsersService, private form: FormBuilder, private router: Router) { }
             
   ngOnInit(): void {
-    if (this.userApi.tokenExpired()) {
-      this.router.navigate(['']);
-    } else {
+    // if (this.userApi.tokenExpired()) {
+    //   this.router.navigate(['']);
+    // } else {
       this.userApi.getProfil()
         .subscribe(
           user => {
@@ -34,9 +34,9 @@ export class ProfilComponent implements OnInit {
               password: this.users.password,
             });
           },
-          error => alert(`You need to be logged in to see this page: ${error}`)
+          //error => alert(`You need to be logged in to see this page: ${error}`)
         )
-    }
+    //}
   }
 
   get myForm() {

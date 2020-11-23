@@ -22,7 +22,7 @@ export class NavbarComponent implements OnInit {
 
   loggedIn(): boolean {
     // return this.apiService.getToken() && this.apiService.getToken().length !== 0;
-    if (this.apiService.tokenExpired() == false) {
+    if (this.apiService.getToken() && this.apiService.tokenExpired() == false) {
       return false;
     }
     return true;

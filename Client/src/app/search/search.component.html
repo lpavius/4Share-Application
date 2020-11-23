@@ -4,10 +4,11 @@
     <input class="form-control form-control-sm ml-3 w-75" type="text" placeholder="Search"
       aria-label="Search">
 </form> -->
-<div class="d-flex justify-content-center">
+<nav class="navbar navbar-light d-flex justify-content-center">
     <form class="form-inline my-2 my-lg-0">
-        <fa-icon [icon]="faSearch"></fa-icon>
-        <input class="form-control form-control-sm ml-3 w-75" type="text" placeholder="Search"
+        
+        <input class="form-control form-inline" type="text" placeholder="Search" [disabled]="logged"
           aria-label="Search">
+        <button type="submit" class="btn btn-info my-2 my-sm-0" [disabled]="logged"><fa-icon [icon]="faSearch"></fa-icon></button>
     </form>
-</div>
+</nav>

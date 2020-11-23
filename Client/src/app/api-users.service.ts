@@ -7,6 +7,7 @@ import { map, catchError } from 'rxjs/operators';
 import { Profil } from './models/profil';
 import {JwtHelperService} from '@auth0/angular-jwt';
 import { Router } from '@angular/router';
+import { MyfilesComponent } from './myfiles/myfiles.component';
 
 @Injectable({
   providedIn: 'root'
@@ -39,7 +40,7 @@ export class ApiUsersService {
     }).pipe(
       map(response => {
         if (response.access_token) {
-          console.log(response.access_token)
+          console.log(this.helper.decodeToken(response.access_token));
           this.setToken(response.access_token);
           return true;
         } else {
