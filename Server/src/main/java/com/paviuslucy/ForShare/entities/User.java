@@ -1,10 +1,15 @@
 package com.paviuslucy.ForShare.entities;
 
+import com.paviuslucy.ForShare.dtos.FileInfosDto;
+
 import javax.persistence.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -29,9 +34,17 @@ public class User {
     @Column(nullable = false)
     private boolean enabled;
 
+    @OneToMany(mappedBy = "user",
+               cascade = CascadeType.REMOVE,
+               fetch = FetchType.LAZY)
+    private List<FileInfos> myFiles;
+
+    //private List<FileInfosDto> filesDto;
+
     public User() {
         //
     }
+
 
     public User(String firstName, String lastName, String userName, String password, boolean enabled) {
         //this.id = id;
@@ -95,6 +108,33 @@ public class User {
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
+
+    public List<FileInfos> getMyFiles() {
+        return myFiles;
+    }
+
+    public void setMyFiles(List<FileInfos> myFiles) {
+        this.myFiles = myFiles;
+    }
+
+    /*public List<FileInfosDto> getFilesDto() {
+        FileInfosDto fileDto = new FileInfosDto();
+        List<FileInfosDto> filesInfosDto = new ArrayList<>();
+        for (FileInfos file: getMyFiles()) {
+            fileDto.setId(file.getId());
+            fileDto.setFilename(file.getFilename());
+            fileDto.setDateAdded(file.getDateAdded().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+            fileDto.setOwner(file.getUser().getFirstName() + " " + file.getUser().getLastName());
+            fileDto.setSize(file.getSize());
+            fileDto.setVisibilityPublic(file.getVisibilityPublic());
+            filesInfosDto.add(fileDto);
+        }
+        return filesInfosDto;
+    }
+
+    public void setFilesDto(List<FileInfosDto> filesDto) {
+        this.filesDto = filesDto;
+    }*/
 
     @Override
     public String toString() {

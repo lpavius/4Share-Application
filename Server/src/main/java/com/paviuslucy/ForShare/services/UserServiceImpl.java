@@ -1,5 +1,6 @@
 package com.paviuslucy.ForShare.services;
 
+import com.paviuslucy.ForShare.dtos.FileInfosDto;
 import com.paviuslucy.ForShare.dtos.UserCreateDto;
 import com.paviuslucy.ForShare.dtos.UserDto;
 import com.paviuslucy.ForShare.entities.User;
@@ -24,6 +25,9 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private FileInfosService fileInfosService;
 
     private final Path root = Paths.get("uploads");
 
@@ -90,6 +94,4 @@ public class UserServiceImpl implements UserService{
     public void delete(Long id) {
         userRepository.deleteById(id);
     }
-
-
 }

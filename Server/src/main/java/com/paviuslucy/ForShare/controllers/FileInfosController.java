@@ -1,13 +1,11 @@
 package com.paviuslucy.ForShare.controllers;
 
+import com.paviuslucy.ForShare.dtos.FileInfosDto;
 import com.paviuslucy.ForShare.entities.FileInfos;
 import com.paviuslucy.ForShare.entities.User;
 import com.paviuslucy.ForShare.services.FileInfosService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
@@ -23,10 +21,20 @@ public class FileInfosController {
     private FileInfosService fileInfosService;
 
     @PostMapping("/upload")
-    public List<FileInfos> upload(@RequestParam("files") MultipartFile[] files) {
+    public List<FileInfosDto> upload(@RequestParam("files") MultipartFile[] files) {
         return Arrays.asList(files)
                 .stream()
                 .map(file -> fileInfosService.storeFile(file))
                 .collect(Collectors.toList());
+    }
+
+    @GetMapping
+    public List<FileInfosDto> getFilesPublic() {
+        return fileInfosService.getFiles();
+    }
+
+    @PutMapping("/update/{id}")
+    public FileInfosDto updateFile(@PathVariable("id")Long id, FileInfosDto fileInfosDto) {
+        return fileInfosService.update(id, fileInfosDto);
     }
 }
