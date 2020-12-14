@@ -2,9 +2,9 @@ package com.paviuslucy.ForShare.services;
 
 public interface ApplicationService {
 
-    void deleteRepository();
+    //void deleteRepository();
 
-    void initRepository();
+    //void initRepository();
 
     void insertData();
 }

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -34,6 +35,11 @@ public class FileInfosServiceImpl implements FileInfosService{
     @Override
     public FileInfosDto dataFileDto(FileInfos fileInfos) {
         FileInfosDto fileDto = new FileInfosDto();
+        /*String fileDownloadUri = ServletUriComponentsBuilder
+                .fromCurrentContextPath()
+                .path("api/files/download/")
+                .path(String.valueOf(fileInfos.getId()))
+                .toUriString();*/
 
         fileDto.setId(fileInfos.getId());
         fileDto.setFilename(fileInfos.getFilename());
@@ -41,11 +47,13 @@ public class FileInfosServiceImpl implements FileInfosService{
         fileDto.setOwner(fileInfos.getUser().getFirstName() + " " + fileInfos.getUser().getLastName());
         fileDto.setSize(fileInfos.getSize());
         fileDto.setVisibilityPublic(fileInfos.getVisibilityPublic());
+        fileDto.setType(fileInfos.getType());
+        //fileDto.setFileDownloadUrl(fileDownloadUri);
         return fileDto;
     }
 
     @Override
-    public FileInfosDto storeFile(MultipartFile file) {
+    public FileInfosDto storeFileToLocalSystem(MultipartFile file) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByUserName(username);
         String filename = file.getOriginalFilename();
@@ -67,13 +75,36 @@ public class FileInfosServiceImpl implements FileInfosService{
             fileInfos.setType(file.getContentType());
             fileInfos.setSize(file.getSize());
             fileInfos.setUser(user);
-            //fileInfos.setVisibilityPublic(false);
+            fileInfos.setVisibilityPublic(false);
             fileInfosRepository.save(fileInfos);
 
             return dataFileDto(fileInfos);
         } catch (IOException ex) {
             throw new RuntimeException("Could not store file " + filename + ". Please try again!", ex);
         }
+    }
+
+    @Override
+    public FileInfosDto storeFileToDatabase(MultipartFile file) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByUserName(username);
+        FileInfos fileInfos = new FileInfos();
+
+
+        try {
+            fileInfos.setFile(file.getBytes());
+            fileInfos.setFilename(file.getOriginalFilename());
+            fileInfos.setSize(file.getSize());
+            fileInfos.setDateAdded(LocalDate.now());
+            fileInfos.setType(file.getContentType());
+            fileInfos.setUser(user);
+            fileInfos.setVisibilityPublic(false);
+            //fileInfos.setFileURL(fileDownloadUri);
+            fileInfosRepository.save(fileInfos);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return dataFileDto(fileInfos);
     }
 
     @Override
@@ -87,17 +118,25 @@ public class FileInfosServiceImpl implements FileInfosService{
     }
 
     @Override
+    public FileInfos load(long id) {
+        return fileInfosRepository.findById(id).get();
+    }
+
+    @Override
     public FileInfosDto update(Long id, FileInfosDto fileInfosDto) {
-        FileInfos fileInfos = fileInfosRepository.findById(id).get();
-        fileInfos.setFilename(fileInfosDto.getFilename());
-        if (fileInfosDto.getVisibilityPublic() == null) {
+        FileInfos fileInfos = fileInfosRepository.findById(id).orElseThrow();
+        //fileInfos.setFilename(fileInfosDto.getFilename());
+        /*if (fileInfosDto.getVisibilityPublic() == null) {
             fileInfos.setVisibilityPublic(false);
-        } else {
-            fileInfos.setVisibilityPublic(fileInfosDto.getVisibilityPublic());
-        }
+        } else {*/
+        fileInfos.setVisibilityPublic(fileInfosDto.getVisibilityPublic());
+        //}
         fileInfosRepository.save(fileInfos);
         return fileInfosDto;
     }
 
-
+    @Override
+    public void delete(long id) {
+        fileInfosRepository.deleteById(id);
+    }
 }

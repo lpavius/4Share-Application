@@ -4,14 +4,19 @@ import com.paviuslucy.ForShare.dtos.FileInfosDto;
 import com.paviuslucy.ForShare.dtos.UserDto;
 import com.paviuslucy.ForShare.entities.FileInfos;
 import com.paviuslucy.ForShare.entities.User;
+import com.paviuslucy.ForShare.repositories.FileInfosRepository;
 import com.paviuslucy.ForShare.repositories.UserRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProfilServiceImpl implements ProfilService {
@@ -20,9 +25,12 @@ public class ProfilServiceImpl implements ProfilService {
 
     private final FileInfosService fileInfosService;
 
-    public ProfilServiceImpl(UserRepository userRepository, FileInfosService fileInfosService) {
+    private final FileInfosRepository fileInfosRepository;
+
+    public ProfilServiceImpl(UserRepository userRepository, FileInfosService fileInfosService, FileInfosRepository fileInfosRepository) {
         this.userRepository = userRepository;
         this.fileInfosService = fileInfosService;
+        this.fileInfosRepository = fileInfosRepository;
     }
 
     @Override
@@ -53,14 +61,31 @@ public class ProfilServiceImpl implements ProfilService {
     }
 
     @Override
-    public List<FileInfosDto> getlistFile(){
+    public List<FileInfosDto> getListFiles() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByUserName(username);
+        List<FileInfos> files = fileInfosRepository.findAllByUser(user);
+        return files.stream()
+                .map(file -> {
+            String fileDownloadUri = ServletUriComponentsBuilder
+                    .fromCurrentContextPath()
+                    .path("api/files/download/")
+                    .path(String.valueOf(file.getId()))
+                    .toUriString();
+            String date = file.getDateAdded().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+            return new FileInfosDto(file.getId(),
+                    file.getFilename(),
+                    fileDownloadUri,
+                    date,
+                    file.getType(),
+                    file.getSize(),
+                    file.getVisibilityPublic());
+        }).collect(Collectors.toList());
         //return user.getFilesDto();
-        FileInfosDto fileDto = new FileInfosDto();
-        List<FileInfosDto> filesInfosDto = new ArrayList<>();
-        List<FileInfos> list = user.getMyFiles();
-        for (FileInfos file: user.getMyFiles()) {
+        //FileInfosDto fileDto;
+        //List<FileInfosDto> filesInfosDto = new ArrayList<>();
+        //List<FileInfos> list = user.getMyFiles();
+        //for (FileInfos file: user.getMyFiles()) {
             /*fileDto.setId(file.getId());
             fileDto.setFilename(file.getFilename());
             fileDto.setDateAdded(file.getDateAdded().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
@@ -68,9 +93,10 @@ public class ProfilServiceImpl implements ProfilService {
             fileDto.setSize(file.getSize());
             fileDto.setVisibilityPublic(file.getVisibilityPublic());
             filesInfosDto.add(fileDto);*/
-            fileDto = fileInfosService.dataFileDto(file);
-            filesInfosDto.add(fileDto);
-        }
-        return filesInfosDto;
+            //fileDto = fileInfosService.dataFileDto(file);
+            //filesInfosDto.add(fileDto);
+        //}
+        //return ResponseEntity.status(HttpStatus.OK).body(files);
+
     }
 }

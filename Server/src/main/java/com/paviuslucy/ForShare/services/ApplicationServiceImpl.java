@@ -16,7 +16,7 @@ import java.nio.file.Paths;
 @Service
 public class ApplicationServiceImpl implements ApplicationService {
 
-    private final Path root = Paths.get("uploads");
+    //private final Path root = Paths.get("uploads");
     //private final Path root2 = Paths.get(`upload`);
 
     @Autowired
@@ -25,7 +25,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @Override
+    /*@Override
     public void deleteRepository() {
         FileSystemUtils.deleteRecursively(root.toFile());
     }
@@ -38,7 +38,7 @@ public class ApplicationServiceImpl implements ApplicationService {
         } catch (IOException e) {
             throw new RuntimeException("Could not initialize folder for upload!");
         }
-    }
+    }*/
 
     @Override
     @Transactional

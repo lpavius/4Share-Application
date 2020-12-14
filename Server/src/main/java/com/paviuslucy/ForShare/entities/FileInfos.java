@@ -16,7 +16,10 @@ public class FileInfos {
     private String filename;
 
     @Column
-    private LocalDate dateAdded; // LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+    private byte[] file;
+
+    @Column
+    private LocalDate dateAdded;
 
     @Column
     private String type;
@@ -25,13 +28,10 @@ public class FileInfos {
     private long size;
 
     @Column
-    private String fileURL;
-
-    @Column
     private Boolean visibilityPublic;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "id_user")
     private User user;
 
     public FileInfos() {
@@ -51,6 +51,14 @@ public class FileInfos {
 
     public void setFilename(String filename) {
         this.filename = filename;
+    }
+
+    public byte[] getFile() {
+        return file;
+    }
+
+    public void setFile(byte[] file) {
+        this.file = file;
     }
 
     public LocalDate getDateAdded() {
@@ -77,14 +85,6 @@ public class FileInfos {
         this.size = size;
     }
 
-    public String getFileURL() {
-        return fileURL;
-    }
-
-    public void setFileURL(String fileURL) {
-        this.fileURL = fileURL;
-    }
-
     public Boolean getVisibilityPublic() {
         return visibilityPublic;
     }
@@ -109,7 +109,6 @@ public class FileInfos {
                 ", dateAdded=" + dateAdded +
                 ", type='" + type + '\'' +
                 ", size=" + size +
-                ", fileURL='" + fileURL + '\'' +
                 ", visibilityPublic=" + visibilityPublic +
                 ", user=" + user +
                 '}';

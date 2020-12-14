@@ -15,13 +15,27 @@ public class FileInfosDto {
 
     private String dateAdded; // LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 
+    private String type;
+
     private long size;
 
     private Boolean visibilityPublic;
 
     private String owner;
 
+    private String fileDownloadUrl;
+
     public FileInfosDto() {
+    }
+
+    public FileInfosDto(long id, String filename, String fileDownloadUrl, String dateAdded, String type, long size, Boolean visibilityPublic) {
+        this.id = id;
+        this.filename = filename;
+        this.dateAdded = dateAdded;
+        this.type = type;
+        this.size = size;
+        this.visibilityPublic = visibilityPublic;
+        this.fileDownloadUrl = fileDownloadUrl;
     }
 
     public Long getId() {
@@ -48,6 +62,14 @@ public class FileInfosDto {
         this.dateAdded = dateAdded;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     public long getSize() {
         return size;
     }
@@ -72,14 +94,25 @@ public class FileInfosDto {
         this.owner = owner;
     }
 
+    public String getFileDownloadUrl() {
+        return fileDownloadUrl;
+    }
+
+    public void setFileDownloadUrl(String fileDownloadUrl) {
+        this.fileDownloadUrl = fileDownloadUrl;
+    }
+
     @Override
     public String toString() {
         return "FileInfosDto{" +
+                "id=" + id +
                 ", filename='" + filename + '\'' +
                 ", dateAdded='" + dateAdded + '\'' +
+                ", type='" + type + '\'' +
                 ", size=" + size +
                 ", visibilityPublic=" + visibilityPublic +
                 ", owner='" + owner + '\'' +
+                ", fileDownloadUrl='" + fileDownloadUrl + '\'' +
                 '}';
     }
 }

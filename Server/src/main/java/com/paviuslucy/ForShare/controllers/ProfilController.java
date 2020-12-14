@@ -5,6 +5,7 @@ import com.paviuslucy.ForShare.dtos.UserDto;
 import com.paviuslucy.ForShare.entities.User;
 import com.paviuslucy.ForShare.services.ProfilService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,6 +31,6 @@ public class ProfilController {
 
     @GetMapping("/files")
     public List<FileInfosDto> getUserFiles() {
-        return profilService.getlistFile();
+        return profilService.getListFiles();
     }
 }

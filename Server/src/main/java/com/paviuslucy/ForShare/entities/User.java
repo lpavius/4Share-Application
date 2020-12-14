@@ -47,18 +47,18 @@ public class User {
 
 
     public User(String firstName, String lastName, String userName, String password, boolean enabled) {
-        //this.id = id;
-        Path root = Paths.get("uploads");
+        // this.id = id;
+        // Path root = Paths.get("uploads");
         this.firstName = firstName;
         this.lastName = lastName;
         this.userName = userName;
         this.password = password;
         this.enabled = enabled;
-        try {
+        /* try {
             Files.createDirectories(Path.of(root + "\\" +userName));
         } catch (IOException e) {
             throw new RuntimeException("Could not initialize folder for upload!");
-        }
+        } */
     }
 
     public Long getId() {

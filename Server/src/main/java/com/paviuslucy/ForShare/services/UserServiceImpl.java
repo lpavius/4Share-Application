@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService{
     @Autowired
     private FileInfosService fileInfosService;
 
-    private final Path root = Paths.get("uploads");
+    //private final Path root = Paths.get("uploads");
 
 
     @Override
@@ -41,11 +41,11 @@ public class UserServiceImpl implements UserService{
         user.setPassword(passwordEncoder.encode(createDto.getPassword()));
         user.setEnabled(true);
         userRepository.save(user);
-        try {
+        /*try {
             Files.createDirectories(Path.of(root + "\\" + Long.toString(user.getId())));
         } catch (IOException e) {
             throw new RuntimeException("Could not initialize folder for upload!");
-        }
+        }*/
     }
 
     @Override
