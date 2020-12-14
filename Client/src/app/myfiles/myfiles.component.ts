@@ -1,7 +1,6 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { ApiFilesService } from '../api-files.service';
 import { Files } from '../models/files';
 
@@ -12,18 +11,16 @@ import { Files } from '../models/files';
 })
 export class MyfilesComponent implements OnInit {
   faPlus = faPlus;
-  filesInfos: FormGroup;
+  faTrash = faTrash;
   listFiles: Files[];
-  progress: number;
   selectedFiles: File[];
   progressInfos = [];
-  isActive: boolean;
   filesUploaded: Files[];
   uploaded = false;
 
   private baseUrl = 'http://localhost:8083/api';
 
-  constructor(private apiFiles: ApiFilesService, private formBuilder: FormBuilder, private http: HttpClient) { }
+  constructor(private apiFiles: ApiFilesService) { }
 
   ngOnInit(): void {
     this.apiFiles.getUserFiles()
@@ -32,44 +29,48 @@ export class MyfilesComponent implements OnInit {
       this.listFiles = files;
       console.log(this.listFiles);
     });
-    this.filesInfos = this.formBuilder.group({file: ['']});
   }
 
   selectFiles(event) {
-      this.progressInfos = [];
+      // this.progressInfos = [];
       this.selectedFiles = event;
       console.log(this.selectedFiles);
-      if (typeof this.filesUploaded === 'undefined') {
-        console.log("filesUploaded is undefined");
-      } else {
-        console.log("il ne l'est pas !!");
-      }
-      console.log(this.filesUploaded);
-  }
- 
-  deleteFileSelected() {
-
   }
 
-  onSubmit() {
+  onUpload() {
     this.apiFiles.upload(this.selectedFiles)
       .subscribe(
         data => {
           this.uploaded = true;
-          console.log(data);
-          this.filesUploaded = data;
+          // console.log(data);
+          // this.filesUploaded = data;
+          this.ngOnInit();
         }
       ) 
   }
 
-  visibilityFilesDefault(files: Files[]) {
-    for (let index = 0; index < files.length; index++) {
-      
-    }
+  switchPublic(event) {
+    let file;
+    let id = parseFloat(event.target.id);
+    //console.log(this.listFiles);
+    this.listFiles.forEach(fileId => {
+      if (fileId.id === id) {
+        file = fileId;
+      }
+    });
+    // console.log(file);
+    // console.log(file.id);
+    this.apiFiles.update(id, file)
+    .subscribe(
+      data => {console.log(data)}
+    );
   }
 
-  checkboxPublic(event) {
-    console.log(event.target.checked);
+  deleteFile(file: Files) {
+    this.apiFiles.delete(file)
+      .subscribe(
+        () => this.ngOnInit()
+    );
   }
 
 }

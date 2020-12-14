@@ -13,6 +13,14 @@ export class ApiFilesService {
 
   constructor(private http: HttpClient, private apiUser: ApiUsersService) { }
 
+  getUserFiles() {
+    return this.http.get<Files[]>(`${this.baseUrl}/profil/files`, {
+      headers: {
+        Authorization: `Bearer ${this.apiUser.getToken()}`
+      }
+    });
+  }
+
   upload(files: File[]) {
     let formData = new FormData();
     
@@ -28,11 +36,13 @@ export class ApiFilesService {
     });
   }
 
-  getUserFiles() {
-    return this.http.get<Files[]>(`${this.baseUrl}/profil/files`, {
-      headers: {
-        Authorization: `Bearer ${this.apiUser.getToken()}`
-      }
-    });
+  update(id, file) {
+    console.log(typeof file);
+    console.log(id);
+    return this.http.put(`${this.baseUrl}/files/update/${id}`, file);
+  }
+
+  delete(file: Files) {
+    return this.http.delete(`${this.baseUrl}/files/${file.id}`);
   }
 }

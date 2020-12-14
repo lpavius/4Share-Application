@@ -46,7 +46,7 @@ export class LoginComponent implements OnInit {
       .subscribe(isLoggedIn => {
         if (isLoggedIn) {
           this.modalService.dismissAll(LoginComponent);
-          return this.router.navigate(['/profil']);
+          return this.router.navigate(['/myfiles']);
         } else {
           this.loginFailed = true;
           this.message = 'E-mail ou mot de passe invalide';

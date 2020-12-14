@@ -8,3 +8,6 @@
 .navbar {
     margin-bottom: 30px;
 }
+.navbar-nav > li > .dropdown-menu a:hover{ 
+    background-color:#17a2b8; 
+}

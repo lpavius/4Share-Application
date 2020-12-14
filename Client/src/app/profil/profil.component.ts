@@ -28,10 +28,10 @@ export class ProfilComponent implements OnInit {
             this.users = user;
             console.log(user);
             this.userForm = this.form.group({
-              firstName: this.users.firstName,
-              lastName: this.users.lastName,
+              firstName: [this.users.firstName],
+              lastName: [this.users.lastName],
               userName: [this.users.userName, Validators.email],
-              password: this.users.password,
+              password: [this.users.password]
             });
           },
           //error => alert(`You need to be logged in to see this page: ${error}`)

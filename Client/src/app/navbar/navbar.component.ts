@@ -14,6 +14,7 @@ export class NavbarComponent implements OnInit {
   constructor(private modalService: NgbModal, private apiService: ApiUsersService, private router: Router) { }
 
   ngOnInit() {
+
   }
 
   modalLogin() {
@@ -28,8 +29,8 @@ export class NavbarComponent implements OnInit {
     return true;
   }
 
-  logout() {
-    this.apiService.clearToken();
-    this.router.navigate(['']);
-  }
+  // logout() {
+  //   this.apiService.clearToken();
+  //   this.router.navigate(['']);
+  // }
 }

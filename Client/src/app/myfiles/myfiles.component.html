@@ -1,8 +1,8 @@
-<div><h1>Mes fichiers</h1></div>
+<div class="title"><h1>Mes fichiers</h1></div>
 <!-- Button trigger modal -->
 <div class="add-file">
   <button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#exampleModal">
-    <fa-icon [icon]="faPlus"></fa-icon>   Ajouter un/des fichier(s)
+    <fa-icon [icon]="faPlus"></fa-icon>Ajouter un/des fichier(s)
   </button>
 </div>
 
@@ -18,18 +18,17 @@
 
       </div>
       <div class="modal-body">
-        <form (ngSubmit)="onSubmit()">
+        <form (ngSubmit)="onUpload()">
           <label class="btn btn-default">
             <input type="file" multiple (change)="selectFiles($event.target.files)" required/>
             <input type="submit" class="btn btn-info" value="Upload">
           </label>
         </form>
       </div>
-      <div *ngIf="uploaded">
+      <!-- <div *ngIf="uploaded">
         <table class="table">
           <thead>
             <tr>
-              <!-- <th scope="col">#</th> -->
               <th scope="col">Nom du fichier</th>
               <th scope="col">Visible pour tous</th>
             </tr>
@@ -39,14 +38,14 @@
               <td>{{ file.filename }}</td>
               <td>
                 <div class="custom-control custom-switch">
-                  <input type="checkbox" class="custom-control-input" id="customSwitch1">
+                  <input type="checkbox" class="custom-control-input" id="customSwitch1" [value]="">
                   <label class="custom-control-label" for="customSwitch1"></label>
                 </div>
               </td>
             </tr>
           </tbody>
         </table>
-      </div>
+      </div> -->
       <!-- <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         <button type="button" class="btn btn-primary">Save changes</button>
@@ -54,61 +53,42 @@
     </div>
   </div>
 </div>
-<!-- <p>
-    <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-        <fa-icon [icon]="faPlus"></fa-icon>
-    </a>
-    <a data-toggle="collapse" href="#collapseExample" role="text" aria-expanded="false" aria-controls="collapseExample">
-        Ajouter un fichier
-    </a>
-</p> -->
-<!-- <div class="collapse" id="collapseExample">
-    <div class="card card-body">
-        <form>
-            <div class="form-group">
-              <input type="file" class="form-control-file" id="exampleFormControlFile1">
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-          </form>
-    </div>
-</div> -->
 
 <div class="container-fluid" style="overflow-x:auto;">
-    <table class="table">
-        <thead>
-          <tr>
-            <!-- <th scope="col">#</th> -->
-            <th scope="col">Nom du fichier</th>
-            <th scope="col">Taille</th>
-            <th scope="col">Propriétaire</th>
-            <th scope="col">Date d'ajout</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let file of listFiles">
-            <td>{{ file.filename }}</td>
-            <td>{{ file.size }}</td>
-            <td>{{ file.owner }}</td>
-            <td>{{ file.dateAdded }}</td>
-          </tr>
-          <!-- <tr>
-            <td>Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus</td>
-            <td>123 Mo</td>
-            <td>enim eiusmod</td>
-            <td>19/11/2020</td>
-          </tr>
-          <tr>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-            <td>@mdo</td>
-          </tr>
-          <tr>
-            <td>Larry</td>
-            <td>the Bird</td>
-            <td>@twitter</td>
-            <td>@mdo</td>
-          </tr> -->
-        </tbody>
-      </table>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Nom du fichier</th>
+        <th scope="col">Télécharger</th>
+        <th scope="col">Taille</th>
+        <th scope="col">Date d'ajout</th>
+        <th scope="col">Visibilité public</th>
+        <th scope="col">Supprimer</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let file of listFiles">
+        <td>{{ file.filename }}</td>
+        <td>
+          <a class="btn btn-info" href={{file.fileDownloadUrl}} role="button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+              <path fill-rule="evenodd" d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+            </svg>
+          </a>
+        </td>
+        <td>{{ file.size }}</td>
+        <td>{{ file.dateAdded }}</td>
+        <td>
+          <div class="custom-control custom-switch">
+            <input type="checkbox" class="custom-control-input" id={{file.id}} name={{file}} [(ngModel)]="file.visibilityPublic" (change)="switchPublic($event)">
+            <label class="custom-control-label" for={{file.id}}></label>
+          </div>
+        </td>
+        <td>
+          <button class="btn btn-danger" (click)="deleteFile(file)" title="Supprimer"><fa-icon [icon]="faTrash"></fa-icon></button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
