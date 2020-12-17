@@ -1,6 +1,8 @@
+import { HttpEventType } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiFilesService } from '../api-files.service';
 import { Files } from '../models/files';
 
@@ -13,40 +15,68 @@ export class MyfilesComponent implements OnInit {
   faPlus = faPlus;
   faTrash = faTrash;
   listFiles: Files[];
-  selectedFiles: File[];
+  selectedFiles: File[] = [];
   progressInfos = [];
   filesUploaded: Files[];
   uploaded = false;
+  msg: string = '';
+  progress: any;
 
   private baseUrl = 'http://localhost:8083/api';
 
-  constructor(private apiFiles: ApiFilesService) { }
+  constructor(private apiFiles: ApiFilesService, private modalService: NgbModal) { }
 
   ngOnInit(): void {
     this.apiFiles.getUserFiles()
     .subscribe(files => {
-      console.log(files);
+      // console.log(files);
       this.listFiles = files;
-      console.log(this.listFiles);
+      // console.log(this.listFiles);
     });
+  }
+
+  converterSize(number: number) {
+    let num = number / 1000;
+    return num.toFixed(2);
   }
 
   selectFiles(event) {
       // this.progressInfos = [];
       this.selectedFiles = event;
-      console.log(this.selectedFiles);
+      // console.log(this.selectedFiles);
   }
 
   onUpload() {
-    this.apiFiles.upload(this.selectedFiles)
-      .subscribe(
-        data => {
-          this.uploaded = true;
-          // console.log(data);
-          // this.filesUploaded = data;
-          this.ngOnInit();
-        }
-      ) 
+    let files = this.selectedFiles;
+
+    if (files.length) {
+      this.apiFiles.upload(files)
+        .subscribe(
+          event => {
+            this.uploaded = true;
+            console.log(HttpEventType.UploadProgress)
+            if (event.type === HttpEventType.UploadProgress) {
+              this.progress = Math.round(100 * event.loaded / event.total);
+              console.log(this.progress);
+            } else if (event.type == HttpEventType.Response) {
+              this.progress = null;
+            }
+            console.log(event);
+            // this.filesUploaded = data;
+            // this.progress = event;
+            // console.log(this.progress);
+            this.ngOnInit();
+          }
+        )
+    } else {
+      this.msg = "Aucun fichier sélectionné";
+      console.log(this.msg);
+    }  
+  }
+
+  close() {
+    this.uploaded = false;
+    this.progress = 0;
   }
 
   switchPublic(event) {

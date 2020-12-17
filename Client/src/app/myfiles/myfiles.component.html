@@ -11,7 +11,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Ajouter des fichier</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Ajouter un/des fichiers</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -21,7 +21,7 @@
         <form (ngSubmit)="onUpload()">
           <label class="btn btn-default">
             <input type="file" multiple (change)="selectFiles($event.target.files)" required/>
-            <input type="submit" class="btn btn-info" value="Upload">
+            <input type="submit" class="btn btn-info" value="Upload"> <!--data-dismiss="modal"-->
           </label>
         </form>
       </div>
@@ -54,6 +54,25 @@
   </div>
 </div>
 
+<div *ngIf="uploaded" class="card" style="width: 18rem;">
+  <div class="card-body">
+    <button type="button" class="close" (click)="close()" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h5 class="card-title">Fichier(s) Uploader</h5>
+    <!-- <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> -->
+    <!-- <span>test1</span> -->
+    <div>
+      <div class="progress">
+        <div class="progress-bar progress-bar-striped bg-info progress-bar-animated" role="progressbar" [ngStyle]="{ width: progress + '%'}" attr.aria-valuenow={{progress}} aria-valuemin="0" aria-valuemax="100"></div>
+      </div>
+    </div>
+    
+    <!-- <a href="#" class="card-link">Card link</a>
+    <a href="#" class="card-link">Another link</a> -->
+  </div>
+</div>
+
 <div class="container-fluid" style="overflow-x:auto;">
   <table class="table">
     <thead>
@@ -61,7 +80,7 @@
         <th scope="col">Nom du fichier</th>
         <th scope="col">Télécharger</th>
         <th scope="col">Taille</th>
-        <th scope="col">Date d'ajout</th>
+        <th scope="col">Ajouté le</th>
         <th scope="col">Visibilité public</th>
         <th scope="col">Supprimer</th>
       </tr>
@@ -77,7 +96,7 @@
             </svg>
           </a>
         </td>
-        <td>{{ file.size }}</td>
+        <td>{{ converterSize(file.size) }} Ko</td>
         <td>{{ file.dateAdded }}</td>
         <td>
           <div class="custom-control custom-switch">

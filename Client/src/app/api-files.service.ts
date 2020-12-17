@@ -1,5 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpEventType } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { map } from 'rxjs/operators';
 import { ApiUsersService } from './api-users.service';
 import { Files } from './models/files';
 import { MyfilesComponent } from './myfiles/myfiles.component';
@@ -23,17 +24,31 @@ export class ApiFilesService {
 
   upload(files: File[]) {
     let formData = new FormData();
-    
+    let progress = 0;
+
     for (let index = 0; index < files.length; index++) {
       formData.append('files', files[index]);
     }
-    console.log(files);
+    // console.log(files);
    
-    return this.http.post<any>(`${this.baseUrl}/files/upload`, formData, {
+    return this.http.post(`${this.baseUrl}/files/upload`, formData, {
       headers: {
-        Authorization: `Bearer ${this.apiUser.getToken()}`
-      }
-    });
+        Authorization: `Bearer ${this.apiUser.getToken()},`
+      },
+      reportProgress: true,
+      observe: 'events'
+    })
+      // .pipe(
+    //   map((event) => {
+    //     if (event.type === HttpEventType.UploadProgress) {
+    //         progress = Math.round(100 * event.loaded / event.total);
+    //         console.log(event);
+    //         return { value: progress}
+    //       } else if (event.type == HttpEventType.Response) {
+    //         return progress = null;
+    //       }
+    //   }) // return event.type {type: 1, loaded: 406700, total: 406700}
+    // )
   }
 
   update(id, file) {
