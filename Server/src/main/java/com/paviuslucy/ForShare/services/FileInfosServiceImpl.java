@@ -8,6 +8,7 @@ import com.paviuslucy.ForShare.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -20,6 +21,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class FileInfosServiceImpl implements FileInfosService{
@@ -34,12 +36,12 @@ public class FileInfosServiceImpl implements FileInfosService{
 
     @Override
     public FileInfosDto dataFileDto(FileInfos fileInfos) {
-        FileInfosDto fileDto = new FileInfosDto();
+        //FileInfosDto fileDto = new FileInfosDto();
         /*String fileDownloadUri = ServletUriComponentsBuilder
                 .fromCurrentContextPath()
                 .path("api/files/download/")
                 .path(String.valueOf(fileInfos.getId()))
-                .toUriString();*/
+                .toUriString();
 
         fileDto.setId(fileInfos.getId());
         fileDto.setFilename(fileInfos.getFilename());
@@ -48,8 +50,23 @@ public class FileInfosServiceImpl implements FileInfosService{
         fileDto.setSize(fileInfos.getSize());
         fileDto.setVisibilityPublic(fileInfos.getVisibilityPublic());
         fileDto.setType(fileInfos.getType());
-        //fileDto.setFileDownloadUrl(fileDownloadUri);
-        return fileDto;
+        fileDto.setFileDownloadUrl(fileDownloadUri);
+        return fileDto;*/
+        String fileDownloadUri = ServletUriComponentsBuilder
+                                .fromCurrentContextPath()
+                                .path("api/files/download/")
+                                .path(String.valueOf(fileInfos.getId()))
+                                .toUriString();
+        String date = fileInfos.getDateAdded().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        String owner = fileInfos.getUser().getFirstName() + " " + fileInfos.getUser().getLastName();
+        return new FileInfosDto(fileInfos.getId(),
+                fileInfos.getFilename(),
+                date,
+                fileInfos.getType(),
+                fileInfos.getSize(),
+                fileInfos.getVisibilityPublic(),
+                owner,
+                fileDownloadUri);
     }
 
     @Override
@@ -90,10 +107,9 @@ public class FileInfosServiceImpl implements FileInfosService{
         User user = userRepository.findByUserName(username);
         FileInfos fileInfos = new FileInfos();
 
-
         try {
             fileInfos.setFile(file.getBytes());
-            fileInfos.setFilename(file.getOriginalFilename());
+            fileInfos.setFilename(StringUtils.cleanPath(file.getOriginalFilename()));
             fileInfos.setSize(file.getSize());
             fileInfos.setDateAdded(LocalDate.now());
             fileInfos.setType(file.getContentType());
@@ -111,10 +127,13 @@ public class FileInfosServiceImpl implements FileInfosService{
     public List<FileInfosDto> getFiles() {
         List<FileInfos> fileInfos = fileInfosRepository.findAllByVisibilityPublicTrue();
         List<FileInfosDto> fileInfosDtos = new ArrayList<>();
-        for (FileInfos file: fileInfos) {
+        /*for (FileInfos file: fileInfos) {
             fileInfosDtos.add(dataFileDto(file));
         }
-        return fileInfosDtos;
+        return fileInfosDtos;*/
+        return fileInfos.stream()
+                .map(file -> dataFileDto(file))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -138,5 +157,30 @@ public class FileInfosServiceImpl implements FileInfosService{
     @Override
     public void delete(long id) {
         fileInfosRepository.deleteById(id);
+    }
+
+    @Override
+    public List<FileInfosDto> search(String keyword) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByUserName(username);
+        List<FileInfos> files = fileInfosRepository.searchByFilename(keyword);
+        return files.stream()
+                .map(file -> {
+                    String fileDownloadUri = ServletUriComponentsBuilder
+                            .fromCurrentContextPath()
+                            .path("api/files/download/")
+                            .path(String.valueOf(file.getId()))
+                            .toUriString();
+                    String date = file.getDateAdded().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                    String owner = file.getUser().getFirstName() + " " + file.getUser().getLastName();
+                    return new FileInfosDto(file.getId(),
+                            file.getFilename(),
+                            date,
+                            file.getType(),
+                            file.getSize(),
+                            file.getVisibilityPublic(),
+                            owner,
+                            fileDownloadUri);
+                }).collect(Collectors.toList());
     }
 }

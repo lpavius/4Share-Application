@@ -22,4 +22,6 @@ public interface FileInfosService {
     FileInfosDto update(Long id, FileInfosDto fileInfosDto);
 
     void delete(long id);
+
+    List<FileInfosDto> search(String filename);
 }

@@ -5,6 +5,7 @@ import com.paviuslucy.ForShare.entities.FileInfos;
 import com.paviuslucy.ForShare.entities.User;
 import com.paviuslucy.ForShare.services.FileInfosService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -25,13 +26,13 @@ public class FileInfosController {
     private FileInfosService fileInfosService;
 
     @PostMapping("/upload")
-    public List<FileInfosDto> upload(@RequestParam("files") MultipartFile[] files) throws IOException {
+    public void upload(@RequestParam("files") MultipartFile[] files) throws IOException {
         List<FileInfosDto> list = new ArrayList<>();
         for (MultipartFile file : Arrays.asList(files)) {
             FileInfosDto fileInfosDto = fileInfosService.storeFileToDatabase(file);
             list.add(fileInfosDto);
         }
-        return list;
+        //return list;
     }
 
     @GetMapping
@@ -57,5 +58,10 @@ public class FileInfosController {
     @DeleteMapping("/{id}")
     public void deleteFile(@PathVariable("id") long id) {
         fileInfosService.delete(id);
+    }
+
+    @GetMapping("/search")
+    List<FileInfosDto> searchFiles(@Param("keyword") String keyword) {
+        return fileInfosService.search(keyword);
     }
 }

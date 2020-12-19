@@ -75,11 +75,12 @@ public class ProfilServiceImpl implements ProfilService {
             String date = file.getDateAdded().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
             return new FileInfosDto(file.getId(),
                     file.getFilename(),
-                    fileDownloadUri,
                     date,
                     file.getType(),
                     file.getSize(),
-                    file.getVisibilityPublic());
+                    file.getVisibilityPublic(),
+                    file.getUser().getLastName(),
+                    fileDownloadUri);
         }).collect(Collectors.toList());
         //return user.getFilesDto();
         //FileInfosDto fileDto;

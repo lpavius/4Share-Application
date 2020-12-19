@@ -28,13 +28,14 @@ public class FileInfosDto {
     public FileInfosDto() {
     }
 
-    public FileInfosDto(long id, String filename, String fileDownloadUrl, String dateAdded, String type, long size, Boolean visibilityPublic) {
+    public FileInfosDto(Long id, String filename, String dateAdded, String type, long size, Boolean visibilityPublic, String owner, String fileDownloadUrl) {
         this.id = id;
         this.filename = filename;
         this.dateAdded = dateAdded;
         this.type = type;
         this.size = size;
         this.visibilityPublic = visibilityPublic;
+        this.owner = owner;
         this.fileDownloadUrl = fileDownloadUrl;
     }
 
