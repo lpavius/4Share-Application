@@ -6,6 +6,7 @@ import { RegisterComponent } from './register/register.component';
 import { ProfilComponent } from './profil/profil.component';
 import { MyfilesComponent } from './myfiles/myfiles.component';
 import { LogoutComponent } from './logout/logout.component';
+import { SearchResultComponent } from './search-result/search-result.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -14,6 +15,7 @@ const routes: Routes = [
   {path: 'profil', component: ProfilComponent},
   {path: 'myfiles', component: MyfilesComponent},
   {path: 'logout', component: LogoutComponent},
+  {path: 'result', component: SearchResultComponent},
   //{path: 'home', redirectTo: '', pathMatch: 'full'}
 ];
 

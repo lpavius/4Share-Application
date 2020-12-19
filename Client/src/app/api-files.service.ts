@@ -11,6 +11,7 @@ import { MyfilesComponent } from './myfiles/myfiles.component';
 export class ApiFilesService {
 
   private baseUrl = 'http://localhost:8083/api';
+  search: any;
 
   constructor(private http: HttpClient, private apiUser: ApiUsersService) { }
 
@@ -22,6 +23,10 @@ export class ApiFilesService {
     });
   }
 
+  getFiles() {
+    return this.http.get<Files[]>(`${this.baseUrl}/files`);
+  }
+
   upload(files: File[]) {
     let formData = new FormData();
     let progress = 0;
@@ -30,7 +35,6 @@ export class ApiFilesService {
       formData.append('files', files[index]);
     }
     // console.log(files);
-   
     return this.http.post(`${this.baseUrl}/files/upload`, formData, {
       headers: {
         Authorization: `Bearer ${this.apiUser.getToken()},`
@@ -59,5 +63,9 @@ export class ApiFilesService {
 
   delete(file: Files) {
     return this.http.delete(`${this.baseUrl}/files/${file.id}`);
+  }
+
+  getSearch(keyword) {
+    return this.http.get(`${this.baseUrl}/files`, keyword)
   }
 }

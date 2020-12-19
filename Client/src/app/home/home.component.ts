@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ApiFilesService } from '../api-files.service';
+import { ApiUsersService } from '../api-users.service';
+import { Files } from '../models/files';
 
 @Component({
   selector: 'app-home',
@@ -7,9 +10,30 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  files: Files[];
+
+  constructor(private apiFile: ApiFilesService, private apiUser: ApiUsersService) { }
 
   ngOnInit() {
+    this.apiFile.getFiles().subscribe(
+      data => {
+        console.log(data);
+        this.files = data;
+      }
+    )
+  }
+
+  loggedIn(): boolean {
+    // return this.apiService.getToken() && this.apiService.getToken().length !== 0;
+    if (this.apiUser.getToken() && this.apiUser.tokenExpired() == false) {
+      return true;
+    }
+    return false;
+  }
+
+  converterSize(number: number) {
+    let num = number / 1000;
+    return num.toFixed(2);
   }
 
 }
