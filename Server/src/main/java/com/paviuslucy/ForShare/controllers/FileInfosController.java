@@ -2,12 +2,9 @@ package com.paviuslucy.ForShare.controllers;
 
 import com.paviuslucy.ForShare.dtos.FileInfosDto;
 import com.paviuslucy.ForShare.entities.FileInfos;
-import com.paviuslucy.ForShare.entities.User;
 import com.paviuslucy.ForShare.services.FileInfosService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,7 +13,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/files")
@@ -60,8 +56,8 @@ public class FileInfosController {
         fileInfosService.delete(id);
     }
 
-    @GetMapping("/search")
-    List<FileInfosDto> searchFiles(@Param("keyword") String keyword) {
+    @GetMapping("/search/{keyword}")
+    List<FileInfosDto> searchFiles(@PathVariable("keyword") String keyword) {
         return fileInfosService.search(keyword);
     }
 }
