@@ -1,1 +1,37 @@
-<p>search-result works!</p>
+<h1 *ngIf="search">Résultat de la recherche: '{{ search }}'</h1>
+<!-- <h2 *ngIf="myResult()">Désolé, nous n'avons rien touvé</h2> -->
+<div *ngIf="myResult()">
+    <p>{{ msg }}</p>  
+</div>
+<div *ngIf="!myResult()">
+    <div>
+        <p>{{ msg }}</p>
+        <table class="table table-bordered">
+            <thead>
+            <tr class="bg-info">
+                <th scope="col">Nom du fichier</th>
+                <th scope="col"></th>
+                <th scope="col">Taille</th>
+                <th scope="col">Propriétaire</th>
+                <th scope="col">Ajouté le</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let file of results">
+                <td> {{ file.filename }} </td>
+                <td>
+                    <a class="text-info" href={{file.fileDownloadUrl}} role="button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
+                          <path fill-rule="evenodd" d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                          <path fill-rule="evenodd" d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                        </svg>
+                    </a>
+                </td>
+                <td>{{ converterSize(file.size) }} Ko</td>
+                <td>{{file.owner}}</td>
+                <td>{{file.dateAdded}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

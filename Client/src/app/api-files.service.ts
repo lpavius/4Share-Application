@@ -1,4 +1,4 @@
-import { HttpClient, HttpEventType } from '@angular/common/http';
+import { HttpClient, HttpEventType, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { ApiUsersService } from './api-users.service';
@@ -66,6 +66,7 @@ export class ApiFilesService {
   }
 
   getSearch(keyword) {
-    return this.http.get(`${this.baseUrl}/files`, keyword)
+    console.log(keyword);
+    return this.http.get(`${this.baseUrl}/files/search/${keyword}`);
   }
 }
