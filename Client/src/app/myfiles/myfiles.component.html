@@ -78,17 +78,17 @@
     <thead>
       <tr>
         <th scope="col">Nom du fichier</th>
-        <th scope="col">Télécharger</th>
-        <th scope="col">Taille</th>
-        <th scope="col">Ajouté le</th>
-        <th scope="col">Visibilité public</th>
-        <th scope="col">Supprimer</th>
+        <th scope="col" class="center">Télécharger</th>
+        <th scope="col" class="center">Taille</th>
+        <th scope="col" class="center">Ajouté le</th>
+        <th scope="col" class="center">Visibilité public</th>
+        <th scope="col" class="center">Supprimer</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let file of listFiles">
         <td>{{ file.filename }}</td>
-        <td>
+        <td class="center">
           <a class="btn btn-info" href={{file.fileDownloadUrl}} role="button">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
               <path fill-rule="evenodd" d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
@@ -96,15 +96,15 @@
             </svg>
           </a>
         </td>
-        <td>{{ converterSize(file.size) }} Ko</td>
-        <td>{{ file.dateAdded }}</td>
-        <td>
+        <td class="center">{{ converterSize(file.size) }} Ko</td>
+        <td class="center">{{ file.dateAdded }}</td>
+        <td class="center">
           <div class="custom-control custom-switch">
             <input type="checkbox" class="custom-control-input" id={{file.id}} name={{file}} [(ngModel)]="file.visibilityPublic" (change)="switchPublic($event)">
             <label class="custom-control-label" for={{file.id}}></label>
           </div>
         </td>
-        <td>
+        <td class="center">
           <button class="btn btn-danger" (click)="deleteFile(file)" title="Supprimer"><fa-icon [icon]="faTrash"></fa-icon></button>
         </td>
       </tr>

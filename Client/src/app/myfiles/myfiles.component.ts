@@ -58,7 +58,7 @@ export class MyfilesComponent implements OnInit {
             if (event.type === HttpEventType.UploadProgress) {
               this.progress = Math.round(100 * event.loaded / event.total);
               console.log(this.progress);
-            } else if (event.type == HttpEventType.Response) {
+            } else if (event.type === HttpEventType.Response) {
               this.progress = null;
             }
             console.log(event);
@@ -66,6 +66,10 @@ export class MyfilesComponent implements OnInit {
             // this.progress = event;
             // console.log(this.progress);
             this.ngOnInit();
+          },
+          error => {
+            this.progress = 0;
+            this.msg = "Les fichiers n'ont pas pu être uploader."
           }
         )
     } else {

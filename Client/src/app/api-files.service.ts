@@ -42,17 +42,6 @@ export class ApiFilesService {
       reportProgress: true,
       observe: 'events'
     })
-      // .pipe(
-    //   map((event) => {
-    //     if (event.type === HttpEventType.UploadProgress) {
-    //         progress = Math.round(100 * event.loaded / event.total);
-    //         console.log(event);
-    //         return { value: progress}
-    //       } else if (event.type == HttpEventType.Response) {
-    //         return progress = null;
-    //       }
-    //   }) // return event.type {type: 1, loaded: 406700, total: 406700}
-    // )
   }
 
   update(id, file) {

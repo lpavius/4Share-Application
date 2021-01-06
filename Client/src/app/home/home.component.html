@@ -1,4 +1,4 @@
-<!-- <app-search></app-search> -->
+<app-search></app-search>
 <!-- <div class="d-flex justify-content-center">
   <form class="form-inline my-2 my-lg-0">
     <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
@@ -17,18 +17,18 @@
       
       <table class="card-table table">
         <thead>
-          <tr>
+          <tr class="text-info">
             <th scope="col">Nom du fichier</th>
-            <th *ngIf="loggedIn()"></th>
-            <th scope="col">Taille</th>
-            <th scope="col">Propriétaire</th>
-            <th scope="col">Ajouté le</th>
+            <th *ngIf="loggedIn()" class="center"></th>
+            <th scope="col" class="center">Taille</th>
+            <th scope="col" class="center">Propriétaire</th>
+            <th scope="col" class="center">Ajouté le</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let file of files">
             <td> {{ file.filename }} </td>
-            <td *ngIf="loggedIn()">
+            <td *ngIf="loggedIn()" class="center">
               <a class="text-info" href={{file.fileDownloadUrl}} role="button">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
                   <path fill-rule="evenodd" d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
@@ -36,9 +36,9 @@
                 </svg>
               </a>
             </td>
-            <td> {{ converterSize(file.size) }} Ko </td>
-            <td> {{ file.owner }} </td>
-            <td> {{ file.dateAdded }} </td>
+            <td class="center"> {{ converterSize(file.size) }} Ko </td>
+            <td class="center"> {{ file.owner }} </td>
+            <td class="center"> {{ file.dateAdded }} </td>
           </tr>
         </tbody>
       </table>

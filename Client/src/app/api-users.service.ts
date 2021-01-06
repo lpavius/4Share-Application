@@ -107,4 +107,13 @@ export class ApiUsersService {
     
   }
   /** ------ **/
+
+  loggedIn(): boolean {
+     //return this.getToken() && this.getToken().length !== 0;
+     return this.getToken() && this.tokenExpired() === false;
+    /*if (this.getToken() && this.tokenExpired() == false) {
+      return true;
+    }
+    return false;*/
+  }
 }

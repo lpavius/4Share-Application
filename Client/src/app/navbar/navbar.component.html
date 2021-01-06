@@ -6,23 +6,35 @@
     <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button> -->
+    <div *ngIf="loggedIn()">
+      <ul class="nav justify-content-center">
+        <li class="nav-item">
+          <a class="nav-link btn-outline-info" role="button" routerLink="/profil">Profile</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link btn-outline-info" routerLink="/myfiles">Mes Shares</a>
+        </li>
+      </ul>
+    </div>
+    
     <div>
-      <ul class="navbar-nav justify-content-end">
+      <ul class="nav justify-content-end">
         <!-- <li class="nav-item active">
           <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
         </li> -->
-        <li *ngIf="loggedIn()" class="nav-item">
+        <li *ngIf="!loggedIn()" class="nav-item">
           <a class="nav-link text-info" routerLink="" (click)="modalLogin()">Connexion</a>
         </li>
-        <li *ngIf="!loggedIn()" class="nav-item">
-          <a class="nav-link text-info" routerLink="/myfiles">Mes Shares</a>
+        <li *ngIf="loggedIn()" class="nav-item">
+          <a class="nav-link text-info" routerLink="/logout">Déconnexion</a>
         </li>
-        <li *ngIf="!loggedIn()" class="nav-item dropdown">
-          <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="logo" class="img_profile">
+        <li *ngIf="loggedIn()" class="nav-item dropdown">
+          <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="logo" class="img_profile" style="width: 35px">
           </a>
-          <div class="dropdown-menu dropdown-menu-lg-right">
+          <div class="dropdown-menu dropdown-menu-right">
             <a class="dropdown-item" routerLink="/profil">Profil</a>
+            <a class="dropdown-item" routerLink="/myfiles">Mes Shares</a>
             <a class="dropdown-item" routerLink="/logout">Déconnexion</a>
           </div>
         </li>

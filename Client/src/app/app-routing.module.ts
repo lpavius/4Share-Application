@@ -7,16 +7,17 @@ import { ProfilComponent } from './profil/profil.component';
 import { MyfilesComponent } from './myfiles/myfiles.component';
 import { LogoutComponent } from './logout/logout.component';
 import { SearchResultComponent } from './search-result/search-result.component';
+import { PrivateGuard } from './_helpers/private.guard';
 
 const routes: Routes = [
-  {path: '', component: HomeComponent},
+  {path: 'home', component: HomeComponent},
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
-  {path: 'profil', component: ProfilComponent},
-  {path: 'myfiles', component: MyfilesComponent},
+  {path: 'profil', component: ProfilComponent, canActivate: [PrivateGuard]},
+  {path: 'myfiles', component: MyfilesComponent, canActivate: [PrivateGuard]},
   {path: 'logout', component: LogoutComponent},
-  {path: 'result', component: SearchResultComponent},
-  //{path: 'home', redirectTo: '', pathMatch: 'full'}
+  {path: 'result', component: SearchResultComponent, canActivate: [PrivateGuard]},
+  {path: '', redirectTo: '/home', pathMatch: 'full'}
 ];
 
 @NgModule({

@@ -5,9 +5,15 @@
       aria-label="Search">
 </form> -->
 <nav class="navbar navbar-light d-flex justify-content-center">
-    <form class="form-inline my-2 my-lg-0" #keyword="ngForm" (ngSubmit)="submitSearch(keyword)">    
-        <input class="form-control form-inline" name="words" type="text" placeholder="Rechercher" [disabled]="logged"
+    <form class="form-inline my-2 my-lg-0" #keyword="ngForm" (ngSubmit)="submitSearch(keyword)">
+      <div class="input-group">
+        <input class="form-control form-inline" name="words" type="text" placeholder="Rechercher"
           aria-label="Search" ngModel>
-        <button type="submit" class="btn btn-info my-2 my-sm-0"><fa-icon [icon]="faSearch"></fa-icon></button>
+        <div class="input-group-append">
+          <button type="submit" class="btn btn-info"><fa-icon [icon]="faSearch"></fa-icon></button>
+        </div>
+        
+      </div>
+        
     </form>
 </nav>

@@ -5,9 +5,26 @@
     border-radius:50px;
 }
 
+.dropdown-toggle::after {
+    display: none; /* désactiver la flêche*/
+    /* display: inline-block; */ /* activer la flêche*/
+}
+
+.dropdown-menu {
+    display: none;
+}
+
 .navbar {
     margin-bottom: 30px;
 }
+
 .navbar-nav > li > .dropdown-menu a:hover{ 
     background-color:#17a2b8; 
 }
+
+/* @media screen and (min-width:490px) {
+
+    .menu {
+        display: none;
+    }
+} */
