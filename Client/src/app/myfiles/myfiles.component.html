@@ -53,7 +53,6 @@
     </div>
   </div>
 </div>
-
 <div *ngIf="uploaded" class="card" style="width: 18rem;">
   <div class="card-body">
     <button type="button" class="close" (click)="close()" aria-label="Close">
@@ -64,7 +63,13 @@
     <!-- <span>test1</span> -->
     <div>
       <div class="progress">
-        <div class="progress-bar progress-bar-striped bg-info progress-bar-animated" role="progressbar" [ngStyle]="{ width: progress + '%'}" attr.aria-valuenow={{progress}} aria-valuemin="0" aria-valuemax="100"></div>
+        <div class="progress-bar progress-bar-striped bg-info progress-bar-animated" role="progressbar" [ngStyle]="{ width: progress + '%'}" attr.aria-valuenow={{progress}} aria-valuemin="0" aria-valuemax="100">
+          {{ progress }}%
+        </div>
+      </div>
+      <div *ngIf="progress==100">upload réussi</div>
+      <div *ngIf="error" class="alert alert-danger" role="alert">
+        {{ error }} <br>215Mo maximum
       </div>
     </div>
     

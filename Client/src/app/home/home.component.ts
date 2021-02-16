@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApiFilesService } from '../api-files.service';
 import { ApiUsersService } from '../api-users.service';
 import { Files } from '../models/files';
+import { SearchComponent } from '../search/search.component';
 
 @Component({
   selector: 'app-home',

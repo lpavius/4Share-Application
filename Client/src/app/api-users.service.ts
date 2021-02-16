@@ -64,7 +64,7 @@ export class ApiUsersService {
 
   /**  GET **/
   getProfil() {
-    return this.http.get(`${this.baseUrl}/profil`, {
+    return this.http.get<Profil>(`${this.baseUrl}/profil`, {
       headers: {
         Authorization: `Bearer ${this.getToken()}`
       }

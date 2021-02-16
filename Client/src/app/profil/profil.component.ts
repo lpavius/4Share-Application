@@ -15,6 +15,7 @@ export class ProfilComponent implements OnInit {
   userForm: FormGroup;
   modified = false;
   isDisabled = true;
+  submitted = false;
 
   constructor(private userApi: ApiUsersService, private form: FormBuilder, private router: Router) { }
             
@@ -27,16 +28,26 @@ export class ProfilComponent implements OnInit {
           user => {
             this.users = user;
             console.log(user);
+            // this.getUserForm(user);
             this.userForm = this.form.group({
-              firstName: [this.users.firstName],
-              lastName: [this.users.lastName],
-              userName: [this.users.userName, Validators.email],
-              password: [this.users.password]
+              firstName: [this.users.firstName, Validators.required],
+              lastName: [this.users.lastName, Validators.required],
+              userName: [this.users.userName, [Validators.required, Validators.email]],
+              // password: [this.users.password]
             });
           },
-          //error => alert(`You need to be logged in to see this page: ${error}`)
+          error => alert(`You need to be logged in to see this page: ${error}`)
         )
     //}
+  }
+
+  getUserForm(user: any) {
+    this.userForm = this.form.group({
+      firstName: [user.firstName],
+      lastName: [user.lastName],
+      userName: [user.userName, Validators.email],
+      password: [user.password]
+    });
   }
 
   get myForm() {
@@ -55,6 +66,7 @@ export class ProfilComponent implements OnInit {
   }
 
   onSubmit() {
+    this.submitted = true;
     if (this.userForm.invalid) {
       return;
     }

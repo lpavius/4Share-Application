@@ -21,8 +21,8 @@ export class MyfilesComponent implements OnInit {
   uploaded = false;
   msg: string = '';
   progress: any;
-
-  private baseUrl = 'http://localhost:8083/api';
+  uploadResponse: any;
+  error: string;
 
   constructor(private apiFiles: ApiFilesService, private modalService: NgbModal) { }
 
@@ -35,47 +35,80 @@ export class MyfilesComponent implements OnInit {
     });
   }
 
+  /* convertis byte en Ko */
   converterSize(number: number) {
     let num = number / 1000;
     return num.toFixed(2);
   }
 
+  /* Assigne les fichiers selectionnés à selectFiles */
   selectFiles(event) {
-      // this.progressInfos = [];
       this.selectedFiles = event;
-      // console.log(this.selectedFiles);
+      console.log(this.selectedFiles);
   }
 
   onUpload() {
     let files = this.selectedFiles;
-
-    if (files.length) {
+    this.progress = 0;
+    this.error = '';
+    if (!files.length) {
+      this.msg = "Aucun fichier sélectionné";
+      console.log(this.msg);
+      return;
+    }
       this.apiFiles.upload(files)
         .subscribe(
+          /*event => {
+            console.log(event);
+            this.uploadResponse = event;
+          },
+          err => {
+            console.error(err);
+            this.error = err
+          }*/
+
+          /*event => {
+            switch (event.type) {
+              case HttpEventType.UploadProgress:
+                this.progress = Math.round(100 * event.loaded / event.total);
+                console.log(this.progress);
+                break;
+              case HttpEventType.Response:
+                console.log(event.body);
+                return event.body;
+            }
+          },
+          error => {
+            this.msg = "Les fichiers n'ont pas pu être uploader.";
+            console.log(this.msg);
+          }*/
           event => {
+            console.log(event);
             this.uploaded = true;
-            console.log(HttpEventType.UploadProgress)
+            console.log(HttpEventType.UploadProgress);
+            console.log(HttpEventType.Response);
             if (event.type === HttpEventType.UploadProgress) {
               this.progress = Math.round(100 * event.loaded / event.total);
               console.log(this.progress);
-            } else if (event.type === HttpEventType.Response) {
+            } else if (event.type === HttpEventType.ResponseHeader) {
               this.progress = null;
             }
+            
             console.log(event);
             // this.filesUploaded = data;
             // this.progress = event;
             // console.log(this.progress);
             this.ngOnInit();
+            
           },
-          error => {
-            this.progress = 0;
-            this.msg = "Les fichiers n'ont pas pu être uploader."
+          (error) => {
+            // this.uploaded = false;
+            // this.progress = 0;
+            this.error = "Echec de l'upload"
+            console.log(this.msg);
+            console.log(error);
           }
         )
-    } else {
-      this.msg = "Aucun fichier sélectionné";
-      console.log(this.msg);
-    }  
   }
 
   close() {
@@ -101,10 +134,14 @@ export class MyfilesComponent implements OnInit {
   }
 
   deleteFile(file: Files) {
-    this.apiFiles.delete(file)
+    let del = confirm(`Le fichier ${file.filename} va être supprimé`);
+    if (del) {
+      this.apiFiles.delete(file)
       .subscribe(
         () => this.ngOnInit()
-    );
+      );
+    }
+    
   }
 
 }

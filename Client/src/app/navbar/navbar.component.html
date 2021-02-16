@@ -1,13 +1,28 @@
-<nav class="navbar navbar-dark bg-dark navbar-expand-lg d-flex">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">
+<nav class="navbar navbar-dark bg-dark navbar-expand-md justify-content-center">
+  <!-- <div class="container-fluid"> -->
+    <a class="navbar-brand d-flex w-50 mr-auto" href="#">
       <img src="assets/images/Logo4Share2blanc.png" style="width: 90px">
     </a>
+    <!-- <a class="navbar-brand nav-item" href="#">Home <span class="sr-only">(current)</span></a> -->
     <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button> -->
-    <div *ngIf="loggedIn()">
-      <ul class="nav justify-content-center">
+    <!-- <div *ngIf="loggedIn()" class="navbar-collapse" id="navbarNavAltMarkup">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        </li>
+      </ul>
+    </div> -->
+    
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="navbar-collapse collapse w-100" id="navbarNavAltMarkup">
+      <ul *ngIf="loggedIn()" class="navbar-nav w-100 justify-content-center">
+        <li class="nav-item">
+          <a class="nav-link text-info" routerLink="/">Accueil</a>
+        </li>
         <li class="nav-item">
           <a class="nav-link btn-outline-info" role="button" routerLink="/profil">Profile</a>
         </li>
@@ -15,10 +30,7 @@
           <a class="nav-link btn-outline-info" routerLink="/myfiles">Mes Shares</a>
         </li>
       </ul>
-    </div>
-    
-    <div>
-      <ul class="nav justify-content-end">
+      <ul class="nav navbar-nav ml-auto w-100 justify-content-end">
         <!-- <li class="nav-item active">
           <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
         </li> -->
@@ -26,23 +38,49 @@
           <a class="nav-link text-info" routerLink="" (click)="modalLogin()">Connexion</a>
         </li>
         <li *ngIf="loggedIn()" class="nav-item">
-          <a class="nav-link text-info" routerLink="/logout">Déconnexion</a>
+          <a class="nav-link text-info" routerLink="/logout">Déconnexion <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="logo" class="img_profile" style="width: 35px"></a>
         </li>
-        <li *ngIf="loggedIn()" class="nav-item dropdown">
-          <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="logo" class="img_profile" style="width: 35px">
-          </a>
-          <div class="dropdown-menu dropdown-menu-right">
-            <a class="dropdown-item" routerLink="/profil">Profil</a>
-            <a class="dropdown-item" routerLink="/myfiles">Mes Shares</a>
-            <a class="dropdown-item" routerLink="/logout">Déconnexion</a>
-          </div>
-        </li>
-        <!-- <li *ngIf="!loggedIn()" class="nav-item">
-          <a class="nav-link" routerLink="" (click)="logout()">Déconnexion</a>
-        </li> -->
       </ul>
     </div>
-  </div>
+      <!-- <div *ngIf="loggedIn()" id="navbarNavAltMarkup">
+        <ul class="nav justify-content-center">
+          <li class="nav-item">
+            <a class="nav-link text-info" href="#">Accueil</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link btn-outline-info" role="button" routerLink="/profil">Profile</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link btn-outline-info" routerLink="/myfiles">Mes Shares</a>
+          </li>
+        </ul>
+      </div> -->
+      <!-- <div>
+        <ul class="nav justify-content-end">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li *ngIf="!loggedIn()" class="nav-item">
+            <a class="nav-link text-info" routerLink="" (click)="modalLogin()">Connexion</a>
+          </li>
+          <li *ngIf="loggedIn()" class="nav-item">
+            <a class="nav-link text-info" routerLink="/logout">Déconnexion</a>
+          </li>
+          <li *ngIf="loggedIn()" class="nav-item dropdown">
+            <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="logo" class="img_profile" style="width: 35px">
+            </a>
+            <div class="dropdown-menu dropdown-menu-right">
+              <a class="dropdown-item" routerLink="/profil">Profil</a>
+              <a class="dropdown-item" routerLink="/myfiles">Mes Shares</a>
+              <a class="dropdown-item" routerLink="/logout">Déconnexion</a>
+            </div>
+          </li>
+          <li *ngIf="!loggedIn()" class="nav-item">
+            <a class="nav-link" routerLink="" (click)="logout()">Déconnexion</a>
+          </li>
+        </ul>
+      </div> -->
+  <!-- </div> -->
 
 </nav>
