@@ -1,0 +1,56 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Inscrivez-vous</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="firstname">Prénom:</label>
+        <input formControlName="firstName" type="text" class="form-control" id="firstname" [ngClass]="{ 'is-invalid': submitted && myForm.firstName.errors}">
+        <div *ngIf="submitted && myForm.firstName.errors" class="invalid-feedback">
+          <div *ngIf="myForm.firstName.errors.required">Prénom obligatoire</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="lastname">Nom:</label>
+        <input type="text" class="form-control" id="lastname" formControlName="lastName" [ngClass]="{ 'is-invalid': submitted && myForm.lastName.errors}">
+        <div *ngIf="submitted && myForm.lastName.errors" class="invalid-feedback">
+          <div *ngIf="myForm.lastName.errors.required">Nom obligatoire</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="exampleInputEmail1">Email:</label>
+        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="email@exemple.com" formControlName="userName" [ngClass]="{ 'is-invalid': submitted && myForm.userName.errors}">
+        <div *ngIf="submitted && myForm.userName.errors" class="invalid-feedback">
+          <div *ngIf="myForm.userName.errors.required">Adresse Email obligatoire</div>
+          <div *ngIf="myForm.userName.errors.email">Ce doit être une adresse email valide</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="exampleInputPassword1">Mot de Passe:</label>
+        <input type="password" class="form-control" id="exampleInputPassword1" formControlName="password" [ngClass]="{ 'is-invalid': submitted && myForm.password.errors}">
+        <div *ngIf="submitted && myForm.password.errors" class="invalid-feedback">
+          <div *ngIf="myForm.password.errors.required">Mot de passe obligatoire</div>
+          <div *ngIf="myForm.password.errors.pattern">Le mot de passe doit avoir entre 8 et 16 caractères avec au moins 1 majuscule, 1 minuscule, 1 chiffre, 1 caractère spécial [-$@$!%*?&]</div>
+        </div>
+      </div>
+      <!-- <div class="form-group form-check">
+        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+        <label class="form-check-label" for="exampleCheck1">Check me out</label>
+      </div> -->
+      <div class="alert alert-warning" *ngIf="submitted && isSignUpFailed">
+        L'adresse email existe déja. <br>
+        L'inscription a échoué. Essayez à nouveau s'il vous plaît.<br />{{ errorMessage }}
+      </div>
+      <div>
+        ou <a routerLink="" (click)="modalLogin()">Connectez-vous</a>
+      </div>
+      <div class="modal-footer">
+        <input type="submit" class="btn btn-primary" value="S'inscrire">
+        <button type="button" class="btn btn-secondary" (click)="modal.close('Cancel')">fermer</button>
+      </div>
+    </form>
+  </div>
+  

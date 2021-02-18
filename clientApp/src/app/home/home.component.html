@@ -1,0 +1,159 @@
+<app-search></app-search>
+<!-- <div class="d-flex justify-content-center">
+  <form class="form-inline my-2 my-lg-0">
+    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+  </form>
+</div> -->
+<div class="container-fluid">
+  <div class="card">
+    <!-- <h5 class="card-header"><a class="card-link text-info" href="#">Documents</a></h5> -->
+    <div class="card-header"></div>
+    <div class="card-body">
+      <p class="card-text"></p>
+    </div>
+    <div class="table-responsive-md"> <!--sinon remettre dans card-body-->
+      <!-- <h5 class="card-title">Special title treatment</h5> -->
+      
+      <table class="card-table table table-striped">
+        <thead>
+          <tr class="text-info">
+            <th scope="col">Nom du fichier</th>
+            <th *ngIf="loggedIn()" class="center"></th>
+            <th scope="col" class="center">Taille</th>
+            <th scope="col" class="center">Propriétaire</th>
+            <th scope="col" class="center">Ajouté le</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let file of files">
+            <td> {{ file.filename }} </td>
+            <td *ngIf="loggedIn()" class="center">
+              <a class="text-info" href={{file.fileDownloadUrl}} role="button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd" d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                  <path fill-rule="evenodd" d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                </svg>
+              </a>
+            </td>
+            <td class="center"> {{ converterSize(file.size) }} Ko </td>
+            <td class="center"> {{ file.owner }} </td>
+            <td class="center"> {{ file.dateAdded }} </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <!-- <br>
+  <div class="card">
+    <h5 class="card-header"><a class="card-link text-info" href="#">Images</a></h5>
+    <div class="card-body">
+      <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Nom du fichier</th>
+            <th scope="col">Taille</th>
+            <th scope="col">Propriétaire</th>
+            <th scope="col">Date d'ajout</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Vestibulum venenatis leo eu.png</td>
+            <td>123 Ko</td>
+            <td>feugiat fringilla</td>
+            <td>24/01/2020</td>
+          </tr>
+          <tr>
+            <td>Fusce pretium nisi vel.jpg</td>
+            <td>250 Ko</td>
+            <td>luctus mattis</td>
+            <td>01/01/2020</td>
+          </tr>
+          <tr>
+            <td>Cras ornare massa eget </td>
+            <td>110 ko</td>
+            <td>quam fringilla</td>
+            <td>13/01/2020</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <br>
+  <div class="card">
+    <h5 class="card-header"><a class="card-link text-info" href="">Videos</a></h5>
+    <div class="card-body">
+      <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Nom du fichier</th>
+            <th scope="col">Taille</th>
+            <th scope="col">Propriétaire</th>
+            <th scope="col">Date d'ajout</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Anim pariatur cliche reprehenderit.mp4</td>
+            <td>700 Mo</td>
+            <td>enim eiusmod</td>
+            <td>19/11/2020</td>
+          </tr>
+          <tr>
+            <td>Donec tristique augue nec massa.mkv</td>
+            <td>1 Go</td>
+            <td>pulvinar facilisis</td>
+            <td>25/10/2020</td>
+          </tr>
+          <tr>
+            <td>Phasellus eu neque eu ex.mkv</td>
+            <td>1,9 Go</td>
+            <td>vehicula dignissim</td>
+            <td>04/06/2020</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <br>
+  <div class="card">
+    <h5 class="card-header"><a class="card-link text-info" href="">Autres</a></h5>
+    <div class="card-body">
+      <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Nom du fichier</th>
+            <th scope="col">Taille</th>
+            <th scope="col">Propriétaire</th>
+            <th scope="col">Date d'ajout</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Anim pariatur cliche reprehenderit.zip</td>
+            <td>700 Mo</td>
+            <td>enim eiusmod</td>
+            <td>19/11/2020</td>
+          </tr>
+          <tr>
+            <td>Donec tristique augue nec massa.exe</td>
+            <td>1 Go</td>
+            <td>pulvinar facilisis</td>
+            <td>25/10/2020</td>
+          </tr>
+          <tr>
+            <td>Phasellus eu neque eu ex.rar</td>
+            <td>1,9 Go</td>
+            <td>vehicula dignissim</td>
+            <td>04/06/2020</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div> -->
+</div>
+

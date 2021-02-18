@@ -1,0 +1,49 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Connectez-vous</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label>Utilisateur:</label>
+        <input type="email" class="form-control" formControlName="username" placeholder="email@example.com" [ngClass]="{ 'is-invalid': submitted && myForm.username.errors}">
+        <div *ngIf="submitted && myForm.username.errors" class="invalid-feedback">
+          <div *ngIf="myForm.username.errors.required">Email obligatoire</div>
+          <div *ngIf="myForm.username.errors.email">Ce doit être une adresse email valide</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="password">Mot de Passe:</label>
+        <input type="password" class="form-control" id="password" formControlName="password" [ngClass]="{'is-invalid': submitted && myForm.password.errors}">
+        <div *ngIf="submitted && myForm.password.errors" class="invalid-feedback">
+          <!-- <div *ngIf="submitted && myForm.email.errors.required">Mot de passe obligatoire</div> -->
+          Mot de passe obligatoire
+        </div>
+      </div>
+      <!-- <div>
+        <input type="checkbox">
+        <label for="">Mémoriser</label>
+      </div> -->
+      <!-- <div>
+        <a href="#">Mot de passe oublié ?</a>
+      </div> -->
+      <!-- <div class="form-group form-check">
+        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+        <label class="form-check-label" for="exampleCheck1">Check me out</label>
+      </div> -->
+      <div class="alert alert-warning" *ngIf="submitted && loginFailed">
+        {{ message }}
+      </div>
+      <div>
+        <!-- <a href="#">Mot de passe oublié ?</a> -->
+        <p>ou <a routerLink="" (click)="modalRegister()">Créez un compte</a></p>
+      </div>
+      <div class="modal-footer">
+        <input type="submit" class="btn btn-primary" value="Se connecter">
+        <button type="button" class="btn btn-secondary" (click)="modal.close('Cancel')">fermer</button>
+      </div>
+    </form>
+  </div>
+  

@@ -1,0 +1,20 @@
+.card-header {
+    background-color: #17a2b8;
+}
+
+.container-fluid {
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.center {
+    text-align: center;
+}
+
+@media screen and (max-width: 360px) {
+
+    .container-fluid {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+}

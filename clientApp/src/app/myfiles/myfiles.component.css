@@ -1,0 +1,29 @@
+.title {
+    margin-left: 30px;
+}
+
+.add-file {
+    margin: 30px;
+}
+
+.center {
+    text-align: center;
+}
+
+div.card {
+    margin-bottom: 30px;
+    margin-left: 30px;
+}
+
+.progress {
+    margin-bottom: 10px;
+}
+
+@media screen and (max-width: 360px) {
+
+    h1 {
+        font-size: 25px !important;
+        line-height: 80%;
+        margin-top: 10px;
+    }
+}
