@@ -10,9 +10,9 @@ import java.util.List;
 
 public interface FileInfosRepository extends JpaRepository<FileInfos, Long> {
 
-    List<FileInfos> findAllByVisibilityPublicTrue();
+    List<FileInfos> findAllByVisibilityPublicTrueOrderByDateAddedDesc();
 
-    List<FileInfos> findAllByUser(User user);
+    List<FileInfos> findAllByUserOrderByDateAddedDesc(User user);
 
     @Query(value = "SELECT * FROM filesinfos f WHERE f.visibility_public = true AND f.filename LIKE %:keyword%",
             nativeQuery = true)

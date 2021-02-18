@@ -6,15 +6,12 @@ import com.paviuslucy.ForShare.entities.FileInfos;
 import com.paviuslucy.ForShare.entities.User;
 import com.paviuslucy.ForShare.repositories.FileInfosRepository;
 import com.paviuslucy.ForShare.repositories.UserRepository;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -64,7 +61,7 @@ public class ProfilServiceImpl implements ProfilService {
     public List<FileInfosDto> getListFiles() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByUserName(username);
-        List<FileInfos> files = fileInfosRepository.findAllByUser(user);
+        List<FileInfos> files = fileInfosRepository.findAllByUserOrderByDateAddedDesc(user);
         return files.stream()
                 .map(file -> {
             String fileDownloadUri = ServletUriComponentsBuilder

@@ -2,6 +2,7 @@ package com.paviuslucy.ForShare.services;
 
 import com.paviuslucy.ForShare.dtos.FileInfosDto;
 import com.paviuslucy.ForShare.entities.FileInfos;
+import com.paviuslucy.ForShare.responseFile.FileUrl;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -24,4 +25,6 @@ public interface FileInfosService {
     void delete(long id);
 
     List<FileInfosDto> search(String filename);
+
+    FileUrl getFile(long id);
 }

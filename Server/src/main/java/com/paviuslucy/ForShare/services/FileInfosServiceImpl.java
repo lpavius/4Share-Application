@@ -5,6 +5,7 @@ import com.paviuslucy.ForShare.entities.FileInfos;
 import com.paviuslucy.ForShare.entities.User;
 import com.paviuslucy.ForShare.repositories.FileInfosRepository;
 import com.paviuslucy.ForShare.repositories.UserRepository;
+import com.paviuslucy.ForShare.responseFile.FileUrl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -125,7 +126,7 @@ public class FileInfosServiceImpl implements FileInfosService{
 
     @Override
     public List<FileInfosDto> getFiles() {
-        List<FileInfos> fileInfos = fileInfosRepository.findAllByVisibilityPublicTrue();
+        List<FileInfos> fileInfos = fileInfosRepository.findAllByVisibilityPublicTrueOrderByDateAddedDesc();
         List<FileInfosDto> fileInfosDtos = new ArrayList<>();
         /*for (FileInfos file: fileInfos) {
             fileInfosDtos.add(dataFileDto(file));
@@ -138,7 +139,11 @@ public class FileInfosServiceImpl implements FileInfosService{
 
     @Override
     public FileInfos load(long id) {
-        return fileInfosRepository.findById(id).get();
+        //boolean isAuthenticated = SecurityContextHolder.getContext().getAuthentication().isAuthenticated();
+        //if (isAuthenticated) {
+            return fileInfosRepository.findById(id).get();
+        //}
+        //return null;
     }
 
     @Override
@@ -182,5 +187,17 @@ public class FileInfosServiceImpl implements FileInfosService{
                             owner,
                             fileDownloadUri);
                 }).collect(Collectors.toList());
+    }
+
+    @Override
+    public FileUrl getFile(long id) {
+        FileInfos file = fileInfosRepository.findById(id).get();
+        String fileDownloadUri = ServletUriComponentsBuilder
+                .fromCurrentContextPath()
+                .path("api/files/download/")
+                .path(String.valueOf(file.getId()))
+                .toUriString();
+        FileUrl fileUrl = new FileUrl(fileDownloadUri);
+        return fileUrl;
     }
 }

@@ -20,13 +20,13 @@ public class ServerApplication {
 		SpringApplication.run(ServerApplication.class, args);
 	}
 
-	@Bean
+	/*@Bean
 	public CommandLineRunner  commandLineRunner() {
 		return args -> {
 			//applicationService.deleteRepository();
 			//applicationService.initRepository();
 			applicationService.insertData();
 		};
-	}
+	}*/
 
 }

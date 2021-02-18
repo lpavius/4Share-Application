@@ -2,9 +2,11 @@ package com.paviuslucy.ForShare.controllers;
 
 import com.paviuslucy.ForShare.dtos.FileInfosDto;
 import com.paviuslucy.ForShare.entities.FileInfos;
+import com.paviuslucy.ForShare.responseFile.FileUrl;
 import com.paviuslucy.ForShare.services.FileInfosService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,10 +26,15 @@ public class FileInfosController {
     @PostMapping("/upload")
     public void upload(@RequestParam("files") MultipartFile[] files) throws IOException {
         List<FileInfosDto> list = new ArrayList<>();
-        for (MultipartFile file : Arrays.asList(files)) {
-            FileInfosDto fileInfosDto = fileInfosService.storeFileToDatabase(file);
-            list.add(fileInfosDto);
-        }
+        //try {
+            for (MultipartFile file : files) {
+                FileInfosDto fileInfosDto = fileInfosService.storeFileToDatabase(file);
+                list.add(fileInfosDto);
+            }
+            //return ResponseEntity.status(HttpStatus.OK).body("Uploaded the files successfully");
+        //} catch (Exception e) {
+          //  return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Could not upload the files");
+        //}
         //return list;
     }
 
@@ -59,5 +66,10 @@ public class FileInfosController {
     @GetMapping("/search/{keyword}")
     List<FileInfosDto> searchFiles(@PathVariable("keyword") String keyword) {
         return fileInfosService.search(keyword);
+    }
+
+    @GetMapping("/{id}")
+    public FileUrl getFile(@PathVariable("id") long id) {
+        return fileInfosService.getFile(id);
     }
 }

@@ -37,6 +37,18 @@ public class FileInfos {
     public FileInfos() {
     }
 
+    /*public FileInfos(String filename, byte[] file, LocalDate dateAdded, String type, long size, Boolean visibilityPublic, User user) {
+        this.filename = filename;
+        this.file = file;
+        this.dateAdded = dateAdded;
+        this.type = type;
+        this.size = size;
+        this.visibilityPublic = visibilityPublic;
+        this.user = user;
+    }*/
+
+    /** GETTER & SETTER **/
+
     public Long getId() {
         return id;
     }
