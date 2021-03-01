@@ -14,7 +14,7 @@ public interface FileInfosService {
 
     FileInfosDto storeFileToLocalSystem(MultipartFile file);
 
-    FileInfosDto storeFileToDatabase(MultipartFile file) throws IOException;
+    void storeFileToDatabase(MultipartFile file) throws IOException;
 
     List<FileInfosDto> getFiles();
 

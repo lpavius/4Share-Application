@@ -37,22 +37,6 @@ public class FileInfosServiceImpl implements FileInfosService{
 
     @Override
     public FileInfosDto dataFileDto(FileInfos fileInfos) {
-        //FileInfosDto fileDto = new FileInfosDto();
-        /*String fileDownloadUri = ServletUriComponentsBuilder
-                .fromCurrentContextPath()
-                .path("api/files/download/")
-                .path(String.valueOf(fileInfos.getId()))
-                .toUriString();
-
-        fileDto.setId(fileInfos.getId());
-        fileDto.setFilename(fileInfos.getFilename());
-        fileDto.setDateAdded(fileInfos.getDateAdded().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-        fileDto.setOwner(fileInfos.getUser().getFirstName() + " " + fileInfos.getUser().getLastName());
-        fileDto.setSize(fileInfos.getSize());
-        fileDto.setVisibilityPublic(fileInfos.getVisibilityPublic());
-        fileDto.setType(fileInfos.getType());
-        fileDto.setFileDownloadUrl(fileDownloadUri);
-        return fileDto;*/
         String fileDownloadUri = ServletUriComponentsBuilder
                                 .fromCurrentContextPath()
                                 .path("api/files/download/")
@@ -103,35 +87,26 @@ public class FileInfosServiceImpl implements FileInfosService{
     }
 
     @Override
-    public FileInfosDto storeFileToDatabase(MultipartFile file) {
+    public void storeFileToDatabase(MultipartFile file) throws IOException {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByUserName(username);
         FileInfos fileInfos = new FileInfos();
 
-        try {
-            fileInfos.setFile(file.getBytes());
-            fileInfos.setFilename(StringUtils.cleanPath(file.getOriginalFilename()));
-            fileInfos.setSize(file.getSize());
-            fileInfos.setDateAdded(LocalDate.now());
-            fileInfos.setType(file.getContentType());
-            fileInfos.setUser(user);
-            fileInfos.setVisibilityPublic(false);
-            //fileInfos.setFileURL(fileDownloadUri);
-            fileInfosRepository.save(fileInfos);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return dataFileDto(fileInfos);
+        fileInfos.setFile(file.getBytes());
+        fileInfos.setFilename(StringUtils.cleanPath(file.getOriginalFilename()));
+        fileInfos.setSize(file.getSize());
+        fileInfos.setDateAdded(LocalDate.now());
+        fileInfos.setType(file.getContentType());
+        fileInfos.setUser(user);
+        fileInfos.setVisibilityPublic(false);
+        fileInfosRepository.save(fileInfos);
     }
 
     @Override
     public List<FileInfosDto> getFiles() {
         List<FileInfos> fileInfos = fileInfosRepository.findAllByVisibilityPublicTrueOrderByDateAddedDesc();
         List<FileInfosDto> fileInfosDtos = new ArrayList<>();
-        /*for (FileInfos file: fileInfos) {
-            fileInfosDtos.add(dataFileDto(file));
-        }
-        return fileInfosDtos;*/
+
         return fileInfos.stream()
                 .map(file -> dataFileDto(file))
                 .collect(Collectors.toList());
@@ -139,22 +114,17 @@ public class FileInfosServiceImpl implements FileInfosService{
 
     @Override
     public FileInfos load(long id) {
-        //boolean isAuthenticated = SecurityContextHolder.getContext().getAuthentication().isAuthenticated();
-        //if (isAuthenticated) {
+
             return fileInfosRepository.findById(id).get();
-        //}
-        //return null;
+
     }
 
     @Override
     public FileInfosDto update(Long id, FileInfosDto fileInfosDto) {
         FileInfos fileInfos = fileInfosRepository.findById(id).orElseThrow();
-        //fileInfos.setFilename(fileInfosDto.getFilename());
-        /*if (fileInfosDto.getVisibilityPublic() == null) {
-            fileInfos.setVisibilityPublic(false);
-        } else {*/
+
         fileInfos.setVisibilityPublic(fileInfosDto.getVisibilityPublic());
-        //}
+
         fileInfosRepository.save(fileInfos);
         return fileInfosDto;
     }

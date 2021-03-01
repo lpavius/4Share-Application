@@ -25,17 +25,9 @@ public class FileInfosController {
 
     @PostMapping("/upload")
     public void upload(@RequestParam("files") MultipartFile[] files) throws IOException {
-        List<FileInfosDto> list = new ArrayList<>();
-        //try {
             for (MultipartFile file : files) {
-                FileInfosDto fileInfosDto = fileInfosService.storeFileToDatabase(file);
-                list.add(fileInfosDto);
+                fileInfosService.storeFileToDatabase(file);
             }
-            //return ResponseEntity.status(HttpStatus.OK).body("Uploaded the files successfully");
-        //} catch (Exception e) {
-          //  return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Could not upload the files");
-        //}
-        //return list;
     }
 
     @GetMapping
