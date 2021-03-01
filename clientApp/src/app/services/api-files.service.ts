@@ -37,7 +37,7 @@ export class ApiFilesService {
   /**
    * envoie une requête HTTP POST au serveur :
    * - enregistre une liste de fichiers
-   * @param files
+   * @param files : liste de fichiers
    */
   upload(files: File[]) {
     let formData = new FormData();
@@ -50,26 +50,14 @@ export class ApiFilesService {
       headers: {
         Authorization: `Bearer ${this.apiUser.getToken()},`
       },
-      reportProgress: true,
-      observe: 'events'
+      reportProgress: true, // expose les événements de progression
+      observe: 'events' // retourne un Observable de type HttpEvent
     })
     .pipe(
         map(event => {
-          console.log(event);
           return event;
-          // switch (event.type) {
-
-          //   case HttpEventType.UploadProgress:
-          //     const progress = Math.round(100 * event.loaded / event.total);
-          //     return { status: 'progress', message: progress };
-          //   case HttpEventType.Response:
-          //     return event.body;
-          //   default:
-          //     return `Unhandled event: ${event.type}`;
-          // }
         }),
         catchError(err => {
-          console.log(err);
            throw err;
         })
       )
@@ -78,8 +66,8 @@ export class ApiFilesService {
   /**
    * envoie une requête HTTP PUT au serveur :
    * - change visibilityPublic par true ou false
-   * @param id 
-   * @param file
+   * @param id : id du fichier
+   * @param file : le fichier à modifier
    */
   update(id, file) {
     console.log(typeof file);
@@ -90,7 +78,7 @@ export class ApiFilesService {
   /**
    * envoie une requête HTTP PUT au serveur :
    * - supprime le fichier
-   * @param file 
+   * @param file : le fichier à supprimer
    */
   delete(file: Files) {
     return this.http.delete(`${this.baseUrl}/files/${file.id}`);
@@ -99,7 +87,7 @@ export class ApiFilesService {
   /**
    * envoie une requête HTTP GET au serveur :
    * - la liste des fichiers 
-   * @param keyword 
+   * @param keyword : le mot clé 
    */
   getSearch(keyword) {
     console.log(keyword);

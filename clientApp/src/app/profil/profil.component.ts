@@ -15,6 +15,7 @@ export class ProfilComponent implements OnInit {
   modified = false;
   isDisabled = true;
   submitted = false;
+  username: string;
 
   constructor(private userApi: ApiUserService, private form: FormBuilder, private router: Router) { }
 
@@ -29,6 +30,7 @@ export class ProfilComponent implements OnInit {
             this.users = user;
             console.log(user);
             // this.getUserForm(user);
+            this.username = this.users.userName;
             this.userForm = this.form.group({
               firstName: [this.users.firstName, Validators.required],
               lastName: [this.users.lastName, Validators.required],
@@ -40,14 +42,14 @@ export class ProfilComponent implements OnInit {
     //}
   }
 
-  getUserForm(user: any) {
-    this.userForm = this.form.group({
-      firstName: [user.firstName],
-      lastName: [user.lastName],
-      userName: [user.userName, Validators.email],
-      password: [user.password]
-    });
-  }
+  // getUserForm(user: any) {
+  //   this.userForm = this.form.group({
+  //     firstName: [user.firstName],
+  //     lastName: [user.lastName],
+  //     userName: [user.userName.toLowerCase, Validators.email],
+  //     password: [user.password]
+  //   });
+  // }
 
   get myForm() {
     return this.userForm.controls;
@@ -65,9 +67,14 @@ export class ProfilComponent implements OnInit {
   }
 
   onSubmit() {
+    let diffUsername = false;
     this.submitted = true;
     if (this.userForm.invalid) {
       return;
+    }
+    if (this.username !== this.userForm.value.userName) {
+      alert("Vous avez changer votre Email, vous allez être déconnecter. Veuillez vous reconnecter avec votre nouvelle Email");
+      diffUsername = true;
     }
     this.userApi.update(this.userForm.value)
       .subscribe(
@@ -75,6 +82,10 @@ export class ProfilComponent implements OnInit {
           console.dir(response);
           this.isDisabled = true;
           this.modified = false;
+          if (diffUsername) {
+            this.userApi.clearToken();
+            this.router.navigate(['/']);
+          }
         }
       )
   }

@@ -68,36 +68,25 @@ export class ApiUserService {
         Authorization: `Bearer ${this.getToken()}`
       }
     })
-    // .pipe(
-    //   map((reponse) => {
-    //     if (reponse) {
-    //       console.log(reponse);
-    //       // return reponse;
-    //     // }else {
-    //     //   return false;
-    //     }
-    //   }),
-    //   catchError( (error: any) => {
-    //     console.log(error);
-    //   })
-    // )
   }
 
   /** --- TOKEN --- **/
+  // acces au token dans le localStorage
   getToken() {
     this.token = localStorage.getItem('access_token');
     return this.token;
   }
-
+  // enregistre le token dans le localStorage
   setToken(token) {
     localStorage.setItem('access_token', token);
   }
 
+  // supprime le token du localStorage
   clearToken() {
     localStorage.setItem('access_token', '');
     this.token = '';
   }
-
+  //  
   tokenExpired(): boolean {
     // const jwtToken = JSON.parse(atob(token.split('.')[1]));
     // const expired = Date.now() 
@@ -106,7 +95,7 @@ export class ApiUserService {
     
   }
   /** ------ **/
-
+  // Si le User est connecté
   loggedIn(): boolean {
      //return this.getToken() && this.getToken().length !== 0;
      return this.getToken() && this.tokenExpired() === false;
@@ -115,7 +104,7 @@ export class ApiUserService {
     }
     return false;*/
   }
-
+   // Si le User est déconnecté
   loggedOut() {
     if (this.loggedIn() === false) {
       alert('Vous êtes déconnecté, vous allez être redirigé sur la page d\'accueil');

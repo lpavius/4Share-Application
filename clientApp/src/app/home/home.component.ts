@@ -11,6 +11,7 @@ import { ApiUserService } from '../services/api-user.service';
 export class HomeComponent implements OnInit {
 
   files: Files[];
+  url: any;
 
   constructor(private apiFile: ApiFilesService, private apiUser: ApiUserService) { }
 
@@ -25,7 +26,6 @@ export class HomeComponent implements OnInit {
   }
 
   loggedIn(): boolean {
-    // return this.apiService.getToken() && this.apiService.getToken().length !== 0;
     if (this.apiUser.getToken() && this.apiUser.tokenExpired() == false) {
       return true;
     }
@@ -35,6 +35,18 @@ export class HomeComponent implements OnInit {
   converterSize(number: number) {
     let num = number / 1000;
     return num.toFixed(2);
+  }
+
+  downloadFile(id: number) {
+    this.apiUser.loggedOut();
+    this.apiFile.download(id)
+      .subscribe(
+        response => {
+          this.url = response;
+          window.location.href = this.url.url;
+        },
+        (error) => console.log('Download failed')
+      )
   }
 
 }

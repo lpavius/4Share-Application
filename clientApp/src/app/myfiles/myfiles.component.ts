@@ -26,7 +26,7 @@ export class MyfilesComponent implements OnInit {
   error: string;
   url: any;
 
-  constructor(private apiFiles: ApiFilesService, private apiUser: ApiUserService ,private modalService: NgbModal) { }
+  constructor(private apiFiles: ApiFilesService, private apiUser: ApiUserService) { }
 
   ngOnInit(): void {
     this.apiUser.loggedOut();
@@ -50,6 +50,9 @@ export class MyfilesComponent implements OnInit {
       console.log(this.selectedFiles);
   }
 
+  /**
+   * Envoie les fichiers selectionnés au serveur
+   */
   onUpload() {
     let files = this.selectedFiles;
     this.progress = 0;
@@ -60,65 +63,33 @@ export class MyfilesComponent implements OnInit {
       return;
     }
       this.apiFiles.upload(files)
+        // Réponse du serveur au format httpEvent
         .subscribe(
-          /*event => {
-            console.log(event);
-            this.uploadResponse = event;
-          },
-          err => {
-            console.error(err);
-            this.error = err
-          }*/
-
-          /*event => {
-            switch (event.type) {
-              case HttpEventType.UploadProgress:
-                this.progress = Math.round(100 * event.loaded / event.total);
-                console.log(this.progress);
-                break;
-              case HttpEventType.Response:
-                console.log(event.body);
-                return event.body;
-            }
-          },
-          error => {
-            this.msg = "Les fichiers n'ont pas pu être uploader.";
-            console.log(this.msg);
-          }*/
           event => {
-            console.log(event);
             this.uploaded = true;
-            console.log(HttpEventType.UploadProgress);
-            console.log(HttpEventType.Response);
             if (event.type === HttpEventType.UploadProgress) {
               this.progress = Math.round(100 * event.loaded / event.total);
-              console.log(this.progress);
             } else if (event.type === HttpEventType.ResponseHeader) {
               this.progress = null;
             }
-            
-            console.log(event);
-            // this.filesUploaded = data;
-            // this.progress = event;
-            // console.log(this.progress);
             this.ngOnInit();
-            
           },
           (error) => {
-            // this.uploaded = false;
-            // this.progress = 0;
-            this.error = "Echec de l'upload"
-            console.log(this.msg);
-            console.log(error);
+            this.error = "Echec de l'upload";
           }
         )
   }
 
+  /* Ferme le modal progress */
   close() {
     this.uploaded = false;
     this.progress = 0;
   }
 
+  /**
+   * switch on/off le partage
+   * @param event : les fichiers selectionné dans l'exporateur de fichier
+   */
   switchPublic(event) {
     let file;
     let id = parseFloat(event.target.id);
@@ -145,21 +116,6 @@ export class MyfilesComponent implements OnInit {
       );
     }
   }
-
-  // downloadFile(id: number) {
-  //   this.apiFiles.download(id).subscribe(
-  //     (response) => {
-  //       console.log(response);
-  //       let blob = new Blob([response]);
-  //       const url = URL.createObjectURL(blob);
-  //       console.log(url);
-  //       fileSaver.saveAs(blob, 'employees.json')
-  //       console.log(blob);
-  //       window.location.href = response.url;
-  //     }),
-  //     (error) => console.log("Download failed!"),
-  //     () => console.info('File downloaded successfully');
-  // }
 
   downloadFile(id: number) {
     this.apiUser.loggedOut();
